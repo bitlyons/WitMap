@@ -1,0 +1,19 @@
+.success{
+    -fx-background-color: #14892c;
+}
+.success:hover{
+    -fx-background-color: #37AB4E;
+}
+
+.warning{
+    -fx-background-color: #d04437;
+}
+
+.warning:hover{
+    -fx-background-color: #F26659;
+}
+
+.circle{
+    -fx-background-color: lightskyblue;
+    -fx-border-color: #ffffff;
+}
