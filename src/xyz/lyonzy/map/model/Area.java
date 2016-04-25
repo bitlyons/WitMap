@@ -1,11 +1,9 @@
 package xyz.lyonzy.map.model;
 
 import javafx.event.EventHandler;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -22,7 +20,7 @@ public class Area extends FlowPane{
 
     public Area() {
         area=this;
-        numberCont=new Pane();
+        numberCont = new StackPane();
         area.getChildren().add(numberCont);
         Consts.setNoOfBuildings(Consts.noOfBuildings+1);
         buildingNo = Consts.noOfBuildings;
@@ -92,7 +90,7 @@ public class Area extends FlowPane{
     public Pane setupArea(int x, int y){
         area.setPrefSize(x, y);
         area.setMinSize(20, 20);
-        area.setMaxSize(1000, 1000);
+        area.setMaxSize(600, 600);
 
    return area;
     }

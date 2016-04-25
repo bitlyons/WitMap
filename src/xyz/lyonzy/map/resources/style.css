@@ -17,3 +17,13 @@
     -fx-background-color: lightskyblue;
     -fx-border-color: #ffffff;
 }
+
+.root {
+    -fx-font-size: 10pt;
+    -fx-font-family: "arial";
+}
+
+.bold {
+    -fx-font-family: "arial";
+    -fx-font-weight: bold;
+}
