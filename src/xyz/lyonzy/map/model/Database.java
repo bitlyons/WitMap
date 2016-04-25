@@ -29,7 +29,7 @@ public class Database {
 
     public Building getBuilding(int buildingId) throws Exception {
         stat = myConnection.createStatement();
-        String selectQuery = "Select * from buildings Where buldingId =" + buildingId;
+        String selectQuery = "Select * from buildings Where buildingId =" + buildingId;
         ResultSet resultSet = stat.executeQuery(selectQuery);
         resultSet.next();
         return new Building(resultSet.getInt("buildingId"), resultSet.getString("Name"), resultSet.getString("Info"),

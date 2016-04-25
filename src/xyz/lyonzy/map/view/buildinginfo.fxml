@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="431.0"
-            prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="431.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.lyonzy.map.controller.BuildingController">
     <center>
         <TabPane prefHeight="367.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
             <tabs>
@@ -18,38 +29,29 @@
                             <children>
                                 <Pane layoutY="-4.0" prefHeight="328.0" prefWidth="600.0">
                                     <children>
-                                        <Text fx:id="buildingName" layoutX="4.0" layoutY="20.0" stroke="#070505"
-                                              strokeType="OUTSIDE" strokeWidth="0.0" text="Building Name Goes Here"
-                                              textAlignment="CENTER" wrappingWidth="591.13671875">
+                                        <Text fx:id="buildingName" layoutX="4.0" layoutY="20.0" stroke="#070505" strokeType="OUTSIDE" strokeWidth="0.0" text="Building Name Goes Here" textAlignment="CENTER" wrappingWidth="591.13671875">
                                             <font>
-                                                <Font name="Arial Bold" size="20.0"/>
+                                                <Font name="Arial Bold" size="20.0" />
                                             </font>
                                         </Text>
-                                        <TextFlow layoutX="14.0" layoutY="180.0" prefHeight="141.0" prefWidth="213.0"
-                                                  style="-fx-border-color: #000000;">
+                                        <TextFlow layoutX="14.0" layoutY="180.0" prefHeight="141.0" prefWidth="213.0" style="-fx-border-color: #000000;">
                                             <children>
-                                                <Text fx:id="openingHours" strokeType="OUTSIDE" strokeWidth="0.0"
-                                                      text="Opening Hour times should be placed here"
-                                                      wrappingWidth="210.9309902191162"/>
+                                                <Text fx:id="openingHours" strokeType="OUTSIDE" strokeWidth="0.0" text="Opening Hour times should be placed here" wrappingWidth="210.9309902191162" />
                                             </children>
                                         </TextFlow>
-                                        <Text layoutX="76.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                                              text="Opening Hours">
+                                        <Text layoutX="76.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opening Hours">
                                             <effect>
-                                                <Glow/>
+                                                <Glow />
                                             </effect>
                                         </Text>
-                                        <ImageView fx:id="buildingImageViw" fitHeight="124.0" fitWidth="210.0"
-                                                   layoutX="14.0" layoutY="27.0" pickOnBounds="true">
+                                        <ImageView fx:id="buildingImageViw" fitHeight="124.0" fitWidth="210.0" layoutX="14.0" layoutY="27.0" pickOnBounds="true">
                                             <image>
-                                                <Image url="@../resources/image-placeholder.jpg"/>
+                                                <Image url="@../resources/image-placeholder.jpg" />
                                             </image>
                                         </ImageView>
                                         <TextFlow layoutX="248.0" layoutY="27.0" prefHeight="244.0" prefWidth="322.0">
                                             <children>
-                                                <Text fx:id="buildingText" strokeType="OUTSIDE" strokeWidth="0.0"
-                                                      text="This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here."
-                                                      wrappingWidth="314.5611877441406"/>
+                                                <Text fx:id="buildingText" strokeType="OUTSIDE" strokeWidth="0.0" text="This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here." wrappingWidth="314.5611877441406" />
                                             </children>
                                         </TextFlow>
                                     </children>
@@ -64,11 +66,9 @@
                             <children>
                                 <Pane layoutX="9.0" layoutY="3.0" prefHeight="315.0" prefWidth="583.0">
                                     <children>
-                                        <TableView fx:id="roomTable" layoutX="95.0" layoutY="7.0" prefHeight="299.0"
-                                                   prefWidth="419.0">
+                                        <TableView fx:id="roomTable" layoutX="95.0" layoutY="7.0" prefHeight="299.0" prefWidth="419.0">
                                             <columns>
-                                                <TableColumn fx:id="roomsColums" maxWidth="418.0" minWidth="418.0"
-                                                             prefWidth="418.0" resizable="false" text="Rooms"/>
+                                                <TableColumn fx:id="roomsColums" maxWidth="418.0" minWidth="418.0" prefWidth="418.0" resizable="false" text="Rooms" />
                                             </columns>
                                         </TableView>
                                     </children>
@@ -85,21 +85,20 @@
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Edit Data"/>
-                        <MenuItem mnemonicParsing="false" text="Close"/>
+                        <MenuItem mnemonicParsing="false" text="Edit Data" />
+                        <MenuItem mnemonicParsing="false" text="Close" />
                     </items>
                 </Menu>
             </menus>
             <effect>
-                <Glow/>
+                <Glow />
             </effect>
         </MenuBar>
     </top>
     <bottom>
-        <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="33.0" prefWidth="600.0"
-                  BorderPane.alignment="CENTER">
+        <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="33.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="close" mnemonicParsing="false" text="Close"/>
+                <Button fx:id="close" mnemonicParsing="false" text="Close" />
             </children>
         </FlowPane>
     </bottom>
