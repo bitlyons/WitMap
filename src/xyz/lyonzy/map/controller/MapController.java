@@ -53,6 +53,7 @@ public class MapController implements Initializable {
 
         cancelNewArea();
         x.enableMove();
+        x.enableOpenBuilding();
     }
 
 
@@ -83,6 +84,7 @@ public class MapController implements Initializable {
         for (int i = 0; i < mapPane.getChildren().size(); i++) {
             if (mapPane.getChildren().get(i) instanceof Area)
                 ((Area) mapPane.getChildren().get(i)).enableMove();
+            ((Area) mapPane.getChildren().get(i)).disableOpenBuilding();
         }
         saveLocationArea.setOpacity(1);
         saveLocationArea.toFront();
@@ -94,10 +96,14 @@ public class MapController implements Initializable {
     void disableMoveAll() {
         saveLocationArea.setOpacity(0);
         for (int i = 0; i < mapPane.getChildren().size(); i++) {
-            if (mapPane.getChildren().get(i) instanceof Area)
+            if (mapPane.getChildren().get(i) instanceof Area){
                 ((Area) mapPane.getChildren().get(i)).disableMove();
+                ((Area) mapPane.getChildren().get(i)).enableOpenBuilding();
+            }
+
         }
     }
+
 
 
     @Override

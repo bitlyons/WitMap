@@ -32,8 +32,8 @@ public class Database {
         String selectQuery = "Select * from buildings Where buildingId =" + buildingId;
         ResultSet resultSet = stat.executeQuery(selectQuery);
         resultSet.next();
-        return new Building(resultSet.getInt("buildingId"), resultSet.getString("Name"), resultSet.getString("Info"),
-                resultSet.getString("OpeningHours"), resultSet.getString("ImageURL"));
+        return new Building(resultSet.getInt("buildingId"), resultSet.getString("Name"), resultSet.getString("OpeningHours"),
+                resultSet.getString("Info"),resultSet.getString("ImageURL"));
 
     }
 }

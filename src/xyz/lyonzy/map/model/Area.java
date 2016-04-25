@@ -1,14 +1,19 @@
 package xyz.lyonzy.map.model;
 
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * Created by brend on 23/04/2016.
@@ -52,33 +57,33 @@ public class Area extends FlowPane{
             }
         });
 
-        area.setOnMouseReleased(new EventHandler<MouseEvent>() {
+        this.setOnMouseReleased(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 area.setCursor(Cursor.HAND);
             }
         });
 
-        area.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        this.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 area.setCursor(Cursor.HAND);
             }
         });
 
-        area.setOnMouseExited(e->{});
+        this.setOnMouseExited(e->{});
 
-        area.setBackground(new Background(new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+        this.setBackground(new Background(new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY)));
         generateCircle();
     }
 
     public void disableMove(){
 
-        area.setOnMousePressed(e->{});
-        area.setOnMouseDragged(e->{});
-        area.setOnMouseReleased(e->{});
-        area.setOnMouseEntered(e->area.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5);"));
-        area.setOnMouseExited(e->area.setStyle("-fx-background-color: rgba(100, 100, 100, 0.0);"));
+        this.setOnMousePressed(e->{});
+        this.setOnMouseDragged(e->{});
+        this.setOnMouseReleased(e->{});
+        this.setOnMouseEntered(e->area.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5);"));
+        this.setOnMouseExited(e->area.setStyle("-fx-background-color: rgba(100, 100, 100, 0.0);"));
     }
 
 
@@ -88,9 +93,9 @@ public class Area extends FlowPane{
     }
 
     public Pane setupArea(int x, int y){
-        area.setPrefSize(x, y);
-        area.setMinSize(20, 20);
-        area.setMaxSize(600, 600);
+        this.setPrefSize(x, y);
+        this.setMinSize(20, 20);
+        this.setMaxSize(600, 600);
 
    return area;
     }
@@ -112,5 +117,28 @@ public class Area extends FlowPane{
         this.getChildren().clear();
         area.getChildren().add(numberCont);
         area.setBackground(null);
+    }
+
+    public void enableOpenBuilding(){
+        this.setOnMouseClicked(e->openBuilding());
+    }
+    public void disableOpenBuilding(){
+        this.setOnMouseClicked(e->{});
+    }
+
+
+    private void openBuilding(){
+        Stage buildingWindow = new Stage();
+        Consts.currentBuilding = buildingNo;
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("../view/buildinginfo.fxml"));
+            buildingWindow.setScene(new Scene(root, 600, 475));
+            buildingWindow.setResizable(false);
+            buildingWindow.setTitle("Building Information");
+            buildingWindow.initModality(Modality.APPLICATION_MODAL);
+            buildingWindow.showAndWait();
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }
