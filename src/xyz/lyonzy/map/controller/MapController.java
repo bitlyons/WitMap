@@ -29,6 +29,7 @@ public class MapController implements Initializable {
         newAreaInsert.toFront();
         newWidthText.setTooltip(minMaxSize);
         newHeightText.setTooltip(minMaxSize);
+        disableMoveAll();
     }
 
     @FXML
@@ -78,6 +79,7 @@ public class MapController implements Initializable {
 
     @FXML
     void enableMoveAll() {
+        cancelNewArea();
         for (int i = 0; i < mapPane.getChildren().size(); i++) {
             if (mapPane.getChildren().get(i) instanceof Area)
                 ((Area) mapPane.getChildren().get(i)).enableMove();
