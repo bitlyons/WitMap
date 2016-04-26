@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 
 /**
  * Created by Brendan Lyons on 25/04/16.
+ * this is the controller for buildinginfo.fxml
  */
 public class BuildingController implements Initializable{
     @FXML

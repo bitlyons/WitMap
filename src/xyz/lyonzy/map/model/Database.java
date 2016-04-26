@@ -5,7 +5,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 /**
- * Created by brend on 24/04/2016.
+ * Created by Brendan Lyons on 24/04/2016.
+ * This file deals with connecting the database, and all the possible statements that the program can make to it
  */
 public class Database {
     private String username = "root";
@@ -35,6 +36,27 @@ public class Database {
         resultSet.next();
         return new Building(resultSet.getInt("bId"), resultSet.getString("bName"), resultSet.getString("bOpeningHours"),
                 resultSet.getString("bInfo"), resultSet.getString("iURL"));
+    }
+
+    public boolean deleteBuilding(int bId) {
+        try {
+            stat = myConnection.createStatement();
+            String deleteStatement = "Delete from Building where bId= " + bId;
+            return stat.executeUpdate(deleteStatement) == 1;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+
+    public boolean deleteArea(int aId) {
+        try {
+            stat = myConnection.createStatement();
+            String deleteStatement = "Delete from area where aId= " + aId;
+            return stat.executeUpdate(deleteStatement) == 1;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public int numberOfAreas() {

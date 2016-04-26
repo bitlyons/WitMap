@@ -14,6 +14,9 @@ import xyz.lyonzy.map.model.Database;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This is the controller for map.fxml
+ **/
 public class MapController implements Initializable {
 
     @FXML
@@ -109,6 +112,7 @@ public class MapController implements Initializable {
         for (int i = 0; i < mapPane.getChildren().size(); i++) {
             if (mapPane.getChildren().get(i) instanceof Area){
                 ((Area) mapPane.getChildren().get(i)).disableMove();
+                ((Area) mapPane.getChildren().get(i)).setReferenceParent(this);
                 ((Area) mapPane.getChildren().get(i)).enableOpenBuilding();
                 try {
                     database.updateArea(((Area) mapPane.getChildren().get(i)).getBuildingNo(),
@@ -123,6 +127,9 @@ public class MapController implements Initializable {
         }
     }
 
+    public void removeArea(Area area) {
+        mapPane.getChildren().remove(area);
+    }
 
 
     @Override
@@ -131,7 +138,9 @@ public class MapController implements Initializable {
         if (Consts.getNoOfBuildings() > 0) {
             for (int i = 0; i < Consts.getNoOfBuildings(); i++) {
                 try {
-                    mapPane.getChildren().add(database.getArea(i + 1));
+                    Area tempArea = database.getArea(i + 1);
+                    mapPane.getChildren().add(tempArea);
+                    tempArea.setReferenceParent(this);
 
                 } catch (Exception e) {
                     System.out.println("Error with area");

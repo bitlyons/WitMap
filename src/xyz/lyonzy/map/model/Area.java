@@ -7,6 +7,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -14,9 +17,12 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import xyz.lyonzy.map.controller.MapController;
+import xyz.lyonzy.map.misc.Alerts;
 
 /**
- * Created by brend on 23/04/2016.
+ * Created by brenden on 23/04/2016.
+ * This file deals with creating/updating and deleting areas on the map.
  */
 public class Area extends FlowPane{
     private Pane area, numberCont;
@@ -24,6 +30,10 @@ public class Area extends FlowPane{
     private Circle circle;
     private Text number;
     private double x, y, height, width;
+    private MapController referenceParent;
+
+
+    Alerts alert = new Alerts();
 
     public Area() {
         setup();
@@ -86,6 +96,7 @@ public class Area extends FlowPane{
             @Override
             public void handle(MouseEvent mouseEvent) {
                 area.setCursor(Cursor.HAND);
+                Consts.currentBuilding = buildingNo;
             }
         });
 
@@ -105,6 +116,7 @@ public class Area extends FlowPane{
             area.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5);");
             circle.setRadius(10);
             number.setStyle("-fx-font: 10 arial;");
+            Consts.currentBuilding = buildingNo;
         });
         this.setOnMouseExited(e->{
             area.setStyle("-fx-background-color: rgba(100, 100, 100, 0.0);");
@@ -115,6 +127,7 @@ public class Area extends FlowPane{
         y = this.getLayoutY();
         width = this.getPrefWidth();
         height = this.getPrefHeight();
+
     }
 
 
@@ -152,8 +165,31 @@ public class Area extends FlowPane{
     }
 
     public void enableOpenBuilding(){
-        this.setOnMouseClicked(e->openBuilding());
+        this.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.PRIMARY) openBuilding();
+            if (e.getButton() == MouseButton.SECONDARY) {
+                ContextMenu rightClick = new ContextMenu();
+                MenuItem edit = new MenuItem("Edit Building");
+                MenuItem delete = new MenuItem("Delete Building");
+                MenuItem cancel = new MenuItem("Cancel");
+                rightClick.getItems().addAll(edit, delete, cancel);
+                rightClick.show(area, e.getScreenX(), e.getScreenY());
+
+                edit.setOnAction(f -> {
+                });//TODO add edit
+                delete.setOnAction(f -> {
+                    if (alert.deleteBuilding()) {
+                        Database database = new Database();
+                        database.deleteBuilding(this.buildingNo);
+                        database.deleteArea(this.buildingNo);
+                        referenceParent.removeArea(this);
+                    }
+                });
+            }
+        });
     }
+
+
     public void disableOpenBuilding(){
         this.setOnMouseClicked(e->{});
     }
@@ -184,5 +220,9 @@ public class Area extends FlowPane{
 
     public int getBuildingNo() {
         return buildingNo;
+    }
+
+    public void setReferenceParent(MapController referenceParent) {
+        this.referenceParent = referenceParent;
     }
 }
