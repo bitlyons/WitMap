@@ -21,7 +21,8 @@ import javafx.stage.Stage;
 public class Area extends FlowPane{
     private Pane area, numberCont;
     private int buildingNo;
-
+    private Circle circle;
+    private Text number;
 
     public Area() {
         area=this;
@@ -78,12 +79,21 @@ public class Area extends FlowPane{
     }
 
     public void disableMove(){
-
+        circle.setRadius(5);
+        number.setStyle("-fx-font: 6 arial;");
         this.setOnMousePressed(e->{});
         this.setOnMouseDragged(e->{});
         this.setOnMouseReleased(e->{});
-        this.setOnMouseEntered(e->area.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5);"));
-        this.setOnMouseExited(e->area.setStyle("-fx-background-color: rgba(100, 100, 100, 0.0);"));
+        this.setOnMouseEntered(e->{
+            area.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5);");
+            circle.setRadius(10);
+            number.setStyle("-fx-font: 10 arial;");
+        });
+        this.setOnMouseExited(e->{
+            area.setStyle("-fx-background-color: rgba(100, 100, 100, 0.0);");
+            circle.setRadius(5);
+            number.setStyle("-fx-font: 6 arial;");
+        });
     }
 
 
@@ -102,13 +112,14 @@ public class Area extends FlowPane{
 
     private void generateCircle(){
 
-        Circle circle = new Circle(10);
+        circle = new Circle(10);
         circle.setFill(Color.SKYBLUE);
         circle.setStroke(Color.WHITESMOKE);
         circle.setStrokeWidth(2);
 
 
-        Text number = new Text(Integer.toString(buildingNo));
+        number = new Text(Integer.toString(buildingNo));
+        number.setStyle("-fx-font: 10 arial;");
         numberCont.relocate(2,2);
         numberCont.getChildren().addAll(circle,number);
     }

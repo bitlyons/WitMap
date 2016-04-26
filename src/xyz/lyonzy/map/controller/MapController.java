@@ -21,7 +21,7 @@ public class MapController implements Initializable {
     @FXML
     RadioMenuItem editMapOff;
 
-    Tooltip minMaxSize = new Tooltip("Min size 5x5, Max 600x600");
+    Tooltip minMaxSize = new Tooltip("Min size 20x20, Max 600x600");
 
     @FXML
     void newArea() {
@@ -53,7 +53,7 @@ public class MapController implements Initializable {
 
         cancelNewArea();
         x.enableMove();
-        x.enableOpenBuilding();
+        x.disableOpenBuilding();
     }
 
 
@@ -72,8 +72,10 @@ public class MapController implements Initializable {
     void saveLocation(){
         disableMoveAll();
         for (int i = 0; i < mapPane.getChildren().size(); i++) {
-            if (mapPane.getChildren().get(i) instanceof Area)
+            if (mapPane.getChildren().get(i) instanceof Area) {
                 ((Area) mapPane.getChildren().get(i)).generateLook();
+                ((Area) mapPane.getChildren().get(i)).enableOpenBuilding();
+            }
         }
         editMapOff.setSelected(true);
     }
@@ -82,9 +84,10 @@ public class MapController implements Initializable {
     void enableMoveAll() {
         cancelNewArea();
         for (int i = 0; i < mapPane.getChildren().size(); i++) {
-            if (mapPane.getChildren().get(i) instanceof Area)
+            if (mapPane.getChildren().get(i) instanceof Area){
                 ((Area) mapPane.getChildren().get(i)).enableMove();
-            ((Area) mapPane.getChildren().get(i)).disableOpenBuilding();
+                ((Area) mapPane.getChildren().get(i)).disableOpenBuilding();
+            }
         }
         saveLocationArea.setOpacity(1);
         saveLocationArea.toFront();
