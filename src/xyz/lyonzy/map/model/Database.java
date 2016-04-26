@@ -55,7 +55,26 @@ public class Database {
         String selectQuery = "Select * from area where aId = " + area;
         ResultSet resultSet = stat.executeQuery(selectQuery);
         resultSet.next();
-        return new Area(resultSet.getInt("x"), resultSet.getInt("y"), resultSet.getInt("height"),
-                resultSet.getInt("width"), resultSet.getInt("aId"));
+        return new Area(resultSet.getDouble("x"), resultSet.getDouble("y"), resultSet.getDouble("height"),
+                resultSet.getDouble("width"), resultSet.getInt("aId"));
     }
+
+    public int addArea(Area area) throws Exception {
+
+        String insertStatement = "Insert into area (aId ,x, y, height, width) values (" + area.getBuildingNo() + ","
+                + area.getX() + "," + area.getY() + "," + area.getHeight() + "," + area.getWidth() + ")";
+        int success = stat.executeUpdate(insertStatement);
+        System.out.println("Success/Status: " + success);
+        return success;
+    }
+
+    public int updateArea(int aId, double x, double y, double height, double width) throws Exception {
+
+        String insertStatement = "Update area set x=" + x + ",y=" + y + ",height = " + height +
+                ",width = " + width + " WHERE aId = " + aId;
+        int success = stat.executeUpdate(insertStatement);
+        System.out.println("Success/Status: " + success);
+        return success;
+    }
+
 }

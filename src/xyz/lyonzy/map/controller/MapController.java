@@ -22,7 +22,7 @@ public class MapController implements Initializable {
     Pane newAreaInsert, mapPane, saveLocationArea;
     @FXML
     RadioMenuItem editMapOff;
-
+    Database database = new Database();
     Tooltip minMaxSize = new Tooltip("Min size 20x20, Max 600x600");
 
     @FXML
@@ -45,10 +45,15 @@ public class MapController implements Initializable {
             //todo Alert needing to be numbers
             System.out.println("issue");
         }
-        if (width >= 20 && width <= 600 && height >= 20 && height <= 600) {
-            mapPane.getChildren().add(x.setupArea(width, height));
-            saveLocationArea.setOpacity(1);
-            saveLocationArea.toFront();
+        try {
+            if (width >= 20 && width <= 600 && height >= 20 && height <= 600) {
+                database.addArea(x);
+                mapPane.getChildren().add(x.setupArea(width, height));
+                saveLocationArea.setOpacity(1);
+                saveLocationArea.toFront();
+            }
+        } catch (Exception e) {
+            //alert error creating area
         }
 
         if (width >= 20 || width > 600 || height >= 20 || height > 600) ;//alert must be between 5x5 and 600x600;
@@ -100,10 +105,19 @@ public class MapController implements Initializable {
     @FXML
     void disableMoveAll() {
         saveLocationArea.setOpacity(0);
+
         for (int i = 0; i < mapPane.getChildren().size(); i++) {
             if (mapPane.getChildren().get(i) instanceof Area){
                 ((Area) mapPane.getChildren().get(i)).disableMove();
                 ((Area) mapPane.getChildren().get(i)).enableOpenBuilding();
+                try {
+                    database.updateArea(((Area) mapPane.getChildren().get(i)).getBuildingNo(),
+                            ((Area) mapPane.getChildren().get(i)).getX(), ((Area) mapPane.getChildren().get(i)).getY(),
+                            ((Area) mapPane.getChildren().get(i)).getPrefHeight(), ((Area) mapPane.getChildren().get(i)).getPrefWidth());
+                } catch (Exception e) {
+                    System.out.println("Error disable move all");
+                    System.out.println(e.getMessage());
+                }//todo alert error//
             }
 
         }
@@ -113,7 +127,6 @@ public class MapController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Database database = new Database();
         Consts.setNoOfBuildings(database.numberOfAreas());
         if (Consts.getNoOfBuildings() > 0) {
             for (int i = 0; i < Consts.getNoOfBuildings(); i++) {

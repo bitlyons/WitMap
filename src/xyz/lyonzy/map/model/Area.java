@@ -23,7 +23,7 @@ public class Area extends FlowPane{
     private int buildingNo;
     private Circle circle;
     private Text number;
-    private int x, y, height, width;
+    private double x, y, height, width;
 
     public Area() {
         setup();
@@ -31,7 +31,7 @@ public class Area extends FlowPane{
         buildingNo = Consts.noOfBuildings;
     }
 
-    public Area(int x, int y, int height, int width, int buildingNo) {
+    public Area(double x, double y, double height, double width, int buildingNo) {
         setup();
         this.relocate(x, y);
         this.setPrefSize(width, height);
@@ -111,6 +111,10 @@ public class Area extends FlowPane{
             circle.setRadius(5);
             number.setStyle("-fx-font: 6 arial;");
         });
+        x = this.getLayoutX();
+        y = this.getLayoutY();
+        width = this.getPrefWidth();
+        height = this.getPrefHeight();
     }
 
 
@@ -168,5 +172,17 @@ public class Area extends FlowPane{
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public int getBuildingNo() {
+        return buildingNo;
     }
 }
