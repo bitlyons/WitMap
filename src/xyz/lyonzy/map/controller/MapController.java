@@ -8,6 +8,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Pane;
 import xyz.lyonzy.map.model.Area;
+import xyz.lyonzy.map.model.Consts;
+import xyz.lyonzy.map.model.Database;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -111,6 +113,20 @@ public class MapController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Database database = new Database();
+        Consts.setNoOfBuildings(database.numberOfAreas());
+        if (Consts.getNoOfBuildings() > 0) {
+            for (int i = 0; i < Consts.getNoOfBuildings(); i++) {
+                try {
+                    mapPane.getChildren().add(database.getArea(i + 1));
+
+                } catch (Exception e) {
+                    System.out.println("Error with area");
+                    System.out.print(e.getMessage());
+
+                }
+            }
+        }
 
     }
 }

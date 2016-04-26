@@ -23,13 +23,30 @@ public class Area extends FlowPane{
     private int buildingNo;
     private Circle circle;
     private Text number;
+    private int x, y, height, width;
 
     public Area() {
-        area=this;
-        numberCont = new StackPane();
-        area.getChildren().add(numberCont);
+        setup();
         Consts.setNoOfBuildings(Consts.noOfBuildings+1);
         buildingNo = Consts.noOfBuildings;
+    }
+
+    public Area(int x, int y, int height, int width, int buildingNo) {
+        setup();
+        this.relocate(x, y);
+        this.setPrefSize(width, height);
+        this.buildingNo = buildingNo;
+        enableMove();
+        disableMove();
+        generateLook();
+        enableOpenBuilding();
+
+    }
+
+    private void setup() {
+        area = this;
+        numberCont = new StackPane();
+        area.getChildren().add(numberCont);
         this.setAlignment(Pos.CENTER);
     }
 
