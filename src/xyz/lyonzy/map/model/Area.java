@@ -169,14 +169,14 @@ public class Area extends FlowPane{
             if (e.getButton() == MouseButton.PRIMARY) openBuilding();
             if (e.getButton() == MouseButton.SECONDARY) {
                 ContextMenu rightClick = new ContextMenu();
-                MenuItem edit = new MenuItem("Edit Building");
+                MenuItem editSize = new MenuItem("Edit Area Size");
+                MenuItem edit = new MenuItem("Edit Building Info");
                 MenuItem delete = new MenuItem("Delete Building");
                 MenuItem cancel = new MenuItem("Cancel");
-                rightClick.getItems().addAll(edit, delete, cancel);
+                rightClick.getItems().addAll(editSize, edit, delete, cancel);
                 rightClick.show(area, e.getScreenX(), e.getScreenY());
 
-                edit.setOnAction(f -> {
-                });//TODO add edit
+                edit.setOnAction(f -> editBuilding(true));
                 delete.setOnAction(f -> {
                     if (alert.deleteBuilding()) {
                         Database database = new Database();
@@ -206,6 +206,22 @@ public class Area extends FlowPane{
             buildingWindow.initModality(Modality.APPLICATION_MODAL);
             buildingWindow.showAndWait();
         }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void editBuilding(boolean edit) {
+        Consts.currentBuilding = buildingNo;
+        Consts.edit = edit;
+        Stage buildingWindow = new Stage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("../view/editbuilding.fxml"));
+            buildingWindow.setScene(new Scene(root, 600, 475));
+            buildingWindow.setResizable(false);
+            buildingWindow.setTitle("Building Information");
+            buildingWindow.initModality(Modality.APPLICATION_MODAL);
+            buildingWindow.showAndWait();
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }

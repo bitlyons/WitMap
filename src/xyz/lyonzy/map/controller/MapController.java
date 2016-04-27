@@ -27,6 +27,7 @@ public class MapController implements Initializable {
     RadioMenuItem editMapOff;
     Database database = new Database();
     Tooltip minMaxSize = new Tooltip("Min size 20x20, Max 600x600");
+    Area x;
 
     @FXML
     void newArea() {
@@ -64,6 +65,8 @@ public class MapController implements Initializable {
         cancelNewArea();
         x.enableMove();
         x.disableOpenBuilding();
+
+        x.editBuilding(false);
     }
 
 

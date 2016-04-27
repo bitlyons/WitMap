@@ -39,11 +39,17 @@ public class BuildingController implements Initializable{
        try {
            Building currentBuilding = database.getBuilding(Consts.getCurrentBuilding());
            this.buildingName.setText(currentBuilding.getBuildingName());
-           this.buildingImageViw.setImage(new Image(currentBuilding.getImage()));
            this.buildingText.setText(currentBuilding.getBuildingInfo());
            this.openingHours.setText(currentBuilding.getOpeningHours());
+
+           try {
+               this.buildingImageViw.setImage(new Image(currentBuilding.getImage()));
+           } catch (Exception e) {
+               System.out.println("no image");
+           }
        }catch (Exception e){
            System.out.println("Error");
+           e.printStackTrace();
        }
     }
 }

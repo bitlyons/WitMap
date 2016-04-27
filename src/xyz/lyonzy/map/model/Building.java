@@ -9,6 +9,7 @@ public class Building {
     private String openingHours;
     private String buildingInfo;
     private String image;
+    private int imageRef;
 
     public String getImage() {
         return image;
@@ -18,12 +19,21 @@ public class Building {
         this.image = image;
     }
 
-    public Building(int buildingNo, String buildingName, String openingHours, String buildingInfo, String image) {
+    public Building(int buildingNo, String buildingName, String openingHours, String buildingInfo, String image, int imageRef) {
         this.buildingNo = buildingNo;
         this.buildingName = buildingName;
         this.openingHours = openingHours;
         this.buildingInfo = buildingInfo;
         this.image = image;
+        this.imageRef = imageRef;
+    }
+
+    public Building(int buildingNo) {
+        this.buildingNo = buildingNo;
+        this.buildingName = "Please Enter Name";
+        this.openingHours = "Please Enter Hours";
+        this.buildingInfo = "Please Enter Info";
+        this.image = "Please Enter Image";
     }
 
     public int getBuildingNo() {
@@ -56,5 +66,13 @@ public class Building {
 
     public void setBuildingInfo(String buildingInfo) {
         this.buildingInfo = buildingInfo;
+    }
+
+    public int getImageRef() {
+        return imageRef;
+    }
+
+    public void setImageRef(int imageRef) {
+        this.imageRef = imageRef;
     }
 }

@@ -29,19 +29,80 @@ public class Database {
     }
 
     public Building getBuilding(int buildingId) throws Exception {
-
-        stat = myConnection.createStatement();
-        String selectQuery = "Select * from building  JOIN image ON  building.image = image.iId Where bId =" + buildingId;
-        ResultSet resultSet = stat.executeQuery(selectQuery);
-        resultSet.next();
-        return new Building(resultSet.getInt("bId"), resultSet.getString("bName"), resultSet.getString("bOpeningHours"),
-                resultSet.getString("bInfo"), resultSet.getString("iURL"));
+        try {
+            stat = myConnection.createStatement();
+            String selectQuery = "Select * from building  JOIN image ON  building.image = image.iId Where bId =" + buildingId;
+            ResultSet resultSet = stat.executeQuery(selectQuery);
+            resultSet.next();
+            return new Building(resultSet.getInt("bId"), resultSet.getString("bName"), resultSet.getString("bOpeningHours"),
+                    resultSet.getString("bInfo"), resultSet.getString("iURL"), resultSet.getInt("iId"));
+        } catch (Exception e) {
+            String selectQuery = "Select * from building Where bId =" + buildingId;
+            ResultSet resultSet = stat.executeQuery(selectQuery);
+            resultSet.next();
+            return new Building(resultSet.getInt("bId"), resultSet.getString("bName"), resultSet.getString("bOpeningHours"),
+                    resultSet.getString("bInfo"), "", resultSet.getInt("image"));
+        }
     }
+
+    public int addBuilding(Building building) throws Exception {
+        stat = myConnection.createStatement();
+        String insertStatement = "Insert into building (bId ,aId, bName, bInfo, bOpeningHours) values (" +
+                building.getBuildingNo() + ", " +
+                building.getBuildingNo() + ", \"" + building.getBuildingName() + "\", \"" +
+                building.getBuildingInfo() + "\" , \"" + building.getOpeningHours() + "\" )";
+        int success = stat.executeUpdate(insertStatement);
+        System.out.println(success + " insert building");
+
+        insertStatement = "Insert into image (buId, iURL) values (" + building.getBuildingNo() + ", iURL = \"" + "def" +
+                building.getBuildingNo() + "\")";
+        int success2 = stat.executeUpdate(insertStatement);
+        System.out.println(success2 + " insert image");
+
+        insertStatement = "UPDATE building set image = (SELECT iId from image where iURL =\"" + "def" +
+                building.getBuildingNo() + "\") where bId =" + building.getBuildingNo();
+        int success3 = stat.executeUpdate(insertStatement);
+        System.out.println(success3 + " add image to building");
+
+        return (success + success2 + success3) / 3;
+    }
+
+
+    public int updateBuilding(int bId, String bName, String bInfo, String bOpeningHours, String image) {
+
+        try {
+            stat = myConnection.createStatement();
+            String insertStatement = "Update building set bName='" + bName + "' ,bInfo = '" + bInfo +
+                    "',bOpeningHours = '" + bOpeningHours + "' WHERE bId = " + bId;
+
+            int success = stat.executeUpdate(insertStatement);
+            Building temp = getBuilding(bId);
+
+            String insertImage = "Update image set iURL = \" " + image + "\" WHERE  iId= " + temp.getImageRef();
+            int success2 = stat.executeUpdate(insertImage);
+
+            return (success + success2) / 2;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return 0;
+        }
+    }
+
 
     public boolean deleteBuilding(int bId) {
         try {
             stat = myConnection.createStatement();
             String deleteStatement = "Delete from Building where bId= " + bId;
+            return stat.executeUpdate(deleteStatement) == 1;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean addMainImage(int buId, String iURL) {
+        try {
+            stat = myConnection.createStatement();
+            String deleteStatement = "Insert into Image (buId, iURL) values (" + buId + ", iURL = '" + iURL + "')";
             return stat.executeUpdate(deleteStatement) == 1;
         } catch (Exception e) {
             return false;
@@ -86,7 +147,6 @@ public class Database {
         String insertStatement = "Insert into area (aId ,x, y, height, width) values (" + area.getBuildingNo() + ","
                 + area.getX() + "," + area.getY() + "," + area.getHeight() + "," + area.getWidth() + ")";
         int success = stat.executeUpdate(insertStatement);
-        System.out.println("Success/Status: " + success);
         return success;
     }
 
@@ -95,7 +155,6 @@ public class Database {
         String insertStatement = "Update area set x=" + x + ",y=" + y + ",height = " + height +
                 ",width = " + width + " WHERE aId = " + aId;
         int success = stat.executeUpdate(insertStatement);
-        System.out.println("Success/Status: " + success);
         return success;
     }
 
