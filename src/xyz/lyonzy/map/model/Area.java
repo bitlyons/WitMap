@@ -7,8 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -170,13 +169,51 @@ public class Area extends FlowPane{
             if (e.getButton() == MouseButton.SECONDARY) {
                 ContextMenu rightClick = new ContextMenu();
                 MenuItem editSize = new MenuItem("Edit Area Size");
+                MenuItem moveArea = new MenuItem("Move Area");
                 MenuItem edit = new MenuItem("Edit Building Info");
                 MenuItem delete = new MenuItem("Delete Building");
                 MenuItem cancel = new MenuItem("Cancel");
-                rightClick.getItems().addAll(editSize, edit, delete, cancel);
+                rightClick.getItems().addAll(editSize, moveArea, edit, delete, cancel);
                 rightClick.show(area, e.getScreenX(), e.getScreenY());
 
+
+                editSize.setOnAction(f -> {
+                    Stage areaStage = new Stage();
+                    GridPane grid = new GridPane();
+
+                    Label heightLab = new Label("Height");
+                    Label widthLab = new Label("Width");
+
+                    TextField height = new TextField();
+                    TextField width = new TextField();
+
+                    Button submit = new Button("submit");
+                    submit.setOnAction(ee -> {
+                        try {
+                            this.setPrefSize(Integer.parseInt(height.getText()), Integer.parseInt(width.getText()));
+                            this.enableMove();
+                            this.disableOpenBuilding();
+                            referenceParent.save();
+                        } catch (Exception g) {//todo alert error
+                        }
+                        areaStage.close();
+                    });
+
+                    grid.add(heightLab, 1, 1);
+                    grid.add(height, 1, 2);
+                    grid.add(widthLab, 2, 1);
+                    grid.add(width, 2, 2);
+                    grid.add(submit, 1, 3);
+                    areaStage.setScene(new Scene(grid, 300, 80));
+                    areaStage.showAndWait();
+
+                });
                 edit.setOnAction(f -> editBuilding(true));
+                moveArea.setOnAction(f -> {
+                    enableMove();
+                    disableOpenBuilding();
+                    referenceParent.save();
+                });
                 delete.setOnAction(f -> {
                     if (alert.deleteBuilding()) {
                         Database database = new Database();

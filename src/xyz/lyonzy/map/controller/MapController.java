@@ -12,6 +12,7 @@ import xyz.lyonzy.map.model.Consts;
 import xyz.lyonzy.map.model.Database;
 
 import java.net.URL;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
 /**
@@ -82,7 +83,7 @@ public class MapController implements Initializable {
 
 
     @FXML
-    void saveLocation(){
+    void saveLocation() {
         disableMoveAll();
         for (int i = 0; i < mapPane.getChildren().size(); i++) {
             if (mapPane.getChildren().get(i) instanceof Area) {
@@ -97,7 +98,7 @@ public class MapController implements Initializable {
     void enableMoveAll() {
         cancelNewArea();
         for (int i = 0; i < mapPane.getChildren().size(); i++) {
-            if (mapPane.getChildren().get(i) instanceof Area){
+            if (mapPane.getChildren().get(i) instanceof Area) {
                 ((Area) mapPane.getChildren().get(i)).enableMove();
                 ((Area) mapPane.getChildren().get(i)).disableOpenBuilding();
             }
@@ -107,13 +108,18 @@ public class MapController implements Initializable {
     }
 
 
+    public void save() {
+        saveLocationArea.setOpacity(1);
+        saveLocationArea.toFront();
+    }
+
 
     @FXML
     void disableMoveAll() {
         saveLocationArea.setOpacity(0);
 
         for (int i = 0; i < mapPane.getChildren().size(); i++) {
-            if (mapPane.getChildren().get(i) instanceof Area){
+            if (mapPane.getChildren().get(i) instanceof Area) {
                 ((Area) mapPane.getChildren().get(i)).disableMove();
                 ((Area) mapPane.getChildren().get(i)).setReferenceParent(this);
                 ((Area) mapPane.getChildren().get(i)).enableOpenBuilding();
@@ -139,18 +145,18 @@ public class MapController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Consts.setNoOfBuildings(database.numberOfAreas());
         if (Consts.getNoOfBuildings() > 0) {
-            for (int i = 0; i < Consts.getNoOfBuildings(); i++) {
-                try {
-                    Area tempArea = database.getArea(i + 1);
+            ResultSet areas = database.getAllArea();
+            try {
+                while (areas.next()) {
+                    Area tempArea = new Area(areas.getDouble("x"), areas.getDouble("y"), areas.getDouble("height"),
+                            areas.getDouble("width"), areas.getInt("aId"));
                     mapPane.getChildren().add(tempArea);
                     tempArea.setReferenceParent(this);
-
-                } catch (Exception e) {
-                    System.out.println("Error with area");
-                    System.out.print(e.getMessage());
-
                 }
+            } catch (Exception e) {
+                System.out.println("error");
             }
+
         }
 
     }

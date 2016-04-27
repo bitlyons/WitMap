@@ -54,13 +54,21 @@ public class Database {
         int success = stat.executeUpdate(insertStatement);
         System.out.println(success + " insert building");
 
-        insertStatement = "Insert into image (buId, iURL) values (" + building.getBuildingNo() + ", iURL = \"" + "def" +
+        insertStatement = "Insert into image (buId, iURL) values (" + building.getBuildingNo() + "," + "\"def" +
                 building.getBuildingNo() + "\")";
         int success2 = stat.executeUpdate(insertStatement);
         System.out.println(success2 + " insert image");
 
-        insertStatement = "UPDATE building set image = (SELECT iId from image where iURL =\"" + "def" +
-                building.getBuildingNo() + "\") where bId =" + building.getBuildingNo();
+
+        String selectStatment = "Select * from image where iURL= \"" + "def" +
+                building.getBuildingNo() + "\"";
+        ResultSet x = stat.executeQuery(selectStatment);
+        x.next();
+        int id = x.getInt("iId");
+        System.out.println(id);
+        /* insertStatement = "UPDATE building set image = (SELECT iId from image where iURL =\"" + "def" +
+                building.getBuildingNo() + "\") where bId =" + building.getBuildingNo(); */
+        insertStatement = "UPDATE building set image =" + id + " WHERE bId = '" + building.getBuildingNo() + "'";
         int success3 = stat.executeUpdate(insertStatement);
         System.out.println(success3 + " add image to building");
 
@@ -78,7 +86,7 @@ public class Database {
             int success = stat.executeUpdate(insertStatement);
             Building temp = getBuilding(bId);
 
-            String insertImage = "Update image set iURL = \" " + image + "\" WHERE  iId= " + temp.getImageRef();
+            String insertImage = "Update image set iURL = \"" + image + "\" WHERE  iId= " + temp.getImageRef();
             int success2 = stat.executeUpdate(insertImage);
 
             return (success + success2) / 2;
@@ -141,6 +149,21 @@ public class Database {
         return new Area(resultSet.getDouble("x"), resultSet.getDouble("y"), resultSet.getDouble("height"),
                 resultSet.getDouble("width"), resultSet.getInt("aId"));
     }
+
+
+    public ResultSet getAllArea() {
+        try {
+            stat = myConnection.createStatement();
+            String selectQuery = "Select * from area ";
+            return stat.executeQuery(selectQuery);
+        } catch (Exception e) {
+            System.out.println("error");
+            return null;
+        }
+    }
+
+
+
 
     public int addArea(Area area) throws Exception {
 
