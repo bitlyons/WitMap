@@ -3,7 +3,7 @@ package xyz.lyonzy.map.model;
 
 public class Consts {
 
-    static int noOfBuildings=0;
+    static int noOfBuildings = 0;
     static int currentBuilding;
     static boolean edit = false;
     static boolean added = false;

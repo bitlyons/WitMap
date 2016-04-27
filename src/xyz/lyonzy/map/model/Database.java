@@ -163,8 +163,6 @@ public class Database {
     }
 
 
-
-
     public int addArea(Area area) throws Exception {
 
         String insertStatement = "Insert into area (aId ,x, y, height, width) values (" + area.getBuildingNo() + ","

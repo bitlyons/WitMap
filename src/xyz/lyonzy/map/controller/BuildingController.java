@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
  * Created by Brendan Lyons on 25/04/16.
  * this is the controller for buildinginfo.fxml
  */
-public class BuildingController implements Initializable{
+public class BuildingController implements Initializable {
     @FXML
     public ImageView buildingImageViw;
     @FXML
@@ -40,26 +40,26 @@ public class BuildingController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-       try {
-           Building currentBuilding = database.getBuilding(Consts.getCurrentBuilding());
-           this.buildingName.setText(currentBuilding.getBuildingName());
-           this.buildingText.setText(currentBuilding.getBuildingInfo());
-           this.openingHours.setText(currentBuilding.getOpeningHours());
+        try {
+            Building currentBuilding = database.getBuilding(Consts.getCurrentBuilding());
+            this.buildingName.setText(currentBuilding.getBuildingName());
+            this.buildingText.setText(currentBuilding.getBuildingInfo());
+            this.openingHours.setText(currentBuilding.getOpeningHours());
 
-           edit.setOnAction(e -> {
-               Consts.getCurrentArea().editBuilding(true);
-               close();
-           });
+            edit.setOnAction(e -> {
+                Consts.getCurrentArea().editBuilding(true);
+                close();
+            });
 
-           try {
-               this.buildingImageViw.setImage(new Image(currentBuilding.getImage()));
-           } catch (Exception e) {
-               System.out.println("no image");
-           }
-       }catch (Exception e){
-           System.out.println("Error");
-           e.printStackTrace();
-       }
+            try {
+                this.buildingImageViw.setImage(new Image(currentBuilding.getImage()));
+            } catch (Exception e) {
+                System.out.println("no image");
+            }
+        } catch (Exception e) {
+            System.out.println("Error");
+            e.printStackTrace();
+        }
     }
 
     @FXML

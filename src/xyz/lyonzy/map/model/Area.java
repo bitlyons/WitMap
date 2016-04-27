@@ -24,15 +24,13 @@ import xyz.lyonzy.map.misc.Alerts;
  * This file deals with creating/updating and deleting areas on the map.
  */
 public class Area extends FlowPane{
+    Alerts alert = new Alerts();
     private Pane area, numberCont;
     private int buildingNo;
     private Circle circle;
     private Text number;
     private double x, y, height, width;
     private MapController referenceParent;
-
-
-    Alerts alert = new Alerts();
 
     public Area() {
         setup();
@@ -57,10 +55,6 @@ public class Area extends FlowPane{
         numberCont = new StackPane();
         area.getChildren().add(numberCont);
         this.setAlignment(Pos.CENTER);
-    }
-
-    class MousePosition {
-        double x, y;
     }
 
     public void enableMove(){
@@ -129,10 +123,8 @@ public class Area extends FlowPane{
 
     }
 
-
-
     private void createMover(){
-    //todo create this method
+        //todo create this method
     }
 
     public Pane setupArea(int x, int y){
@@ -140,7 +132,7 @@ public class Area extends FlowPane{
         this.setMinSize(20, 20);
         this.setMaxSize(600, 600);
 
-   return area;
+        return area;
     }
 
     private void generateCircle(){
@@ -234,11 +226,9 @@ public class Area extends FlowPane{
         });
     }
 
-
     public void disableOpenBuilding(){
         this.setOnMouseClicked(e->{});
     }
-
 
     private void openBuilding(){
         Stage buildingWindow = new Stage();
@@ -287,5 +277,9 @@ public class Area extends FlowPane{
 
     public void setReferenceParent(MapController referenceParent) {
         this.referenceParent = referenceParent;
+    }
+
+    class MousePosition {
+        double x, y;
     }
 }

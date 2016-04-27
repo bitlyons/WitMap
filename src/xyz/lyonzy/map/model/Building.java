@@ -1,7 +1,8 @@
 package xyz.lyonzy.map.model;
 
 /**
- * Created by brend on 25/04/2016.
+ * Created by brendan Lyons on 25/04/2016.
+ * This class deals with buildings, primarily used for displaying them
  */
 public class Building {
     private int buildingNo;
@@ -10,14 +11,6 @@ public class Building {
     private String buildingInfo;
     private String image;
     private int imageRef;
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     public Building(int buildingNo, String buildingName, String openingHours, String buildingInfo, String image, int imageRef) {
         this.buildingNo = buildingNo;
@@ -34,6 +27,14 @@ public class Building {
         this.openingHours = "Please Enter Hours";
         this.buildingInfo = "Please Enter Info";
         this.image = "Please Enter Image";
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public int getBuildingNo() {
