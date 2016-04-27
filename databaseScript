@@ -1,0 +1,163 @@
+-- phpMyAdmin SQL Dump
+-- version 4.5.1
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: Apr 27, 2016 at 05:31 AM
+-- Server version: 10.1.13-MariaDB
+-- PHP Version: 5.6.20
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `witmap`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `area`
+--
+
+CREATE TABLE `area` (
+  `aId` int(11) NOT NULL,
+  `x` decimal(11,0) NOT NULL,
+  `y` decimal(11,0) NOT NULL,
+  `height` decimal(11,0) NOT NULL,
+  `width` decimal(11,0) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `area`
+--
+
+INSERT INTO `area` (`aId`, `x`, `y`, `height`, `width`) VALUES
+(1, '733', '404', '100', '100');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `building`
+--
+
+CREATE TABLE `building` (
+  `bId` int(3) NOT NULL,
+  `bName` varchar(60) NOT NULL,
+  `bInfo` text NOT NULL,
+  `bOpeningHours` text NOT NULL,
+  `aId` int(11) DEFAULT NULL,
+  `image` int(11) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `building`
+--
+
+INSERT INTO `building` (`bId`, `bName`, `bInfo`, `bOpeningHours`, `aId`, `image`) VALUES
+(1, 'Test building 125', 'just some gibberish test info here. just some gibberish test info here. \njust some gibberish test info here. just some gibberish test info here.\njust some gibberish test info here. just some gibberish test info here. just some\n gibberish test info here. just some gibberish test info here.just some gibberish\ntest info here. just some gibberish test info here. just some gibberish test info here. \nust some gibberish test info here.just some gibberish test info here. just some gib\nberish test info here. just some gibberish test info here. just some gibb\nerish test info here.just some gibberish test info here. just some gibberish tes\nt info here. just some gibberish test info here. just some gibberish test info here.j\nust some gibberish test info here. just some gibberish test info here. just some gib\nberish test info here. just some gibberish test info here.just some gibberish test in\nfo here. just some gibberish test info here. just some gibberish test info here. just\n some gibberish test info here.just some gibberish test info here. just some gibbe\nrish test info here. just some gibberish test info here. just some gibberish test inf\no here.just some gibberish test info here. just some gibberish test info here. just \nsome gibberish test info here. just some gibberish test info here.just some gibber\nish test info here. just some gibberish test info here. just some gibberish test info h\nere. just some gibberish test info here.just some gibberish test info here. just some\n gibberish test info here. just some gibberish test info here. just some gibberish test info here.', 'mon\ntues\nwed\nthurs\nfri\nsat\nsun\n', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `image`
+--
+
+CREATE TABLE `image` (
+  `iId` int(11) NOT NULL,
+  `buId` int(11) NOT NULL,
+  `iURL` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `image`
+--
+
+INSERT INTO `image` (`iId`, `buId`, `iURL`) VALUES
+(1, 1, 'http://www.narincomicro.com/productimage/158.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `room`
+--
+
+CREATE TABLE `room` (
+  `rId` int(11) NOT NULL,
+  `bId` int(11) NOT NULL,
+  `rName` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `area`
+--
+ALTER TABLE `area`
+  ADD PRIMARY KEY (`aId`);
+
+--
+-- Indexes for table `building`
+--
+ALTER TABLE `building`
+  ADD PRIMARY KEY (`bId`),
+  ADD KEY `aId` (`aId`),
+  ADD KEY `image` (`image`);
+
+--
+-- Indexes for table `image`
+--
+ALTER TABLE `image`
+  ADD PRIMARY KEY (`iId`),
+  ADD KEY `bId` (`buId`);
+
+--
+-- Indexes for table `room`
+--
+ALTER TABLE `room`
+  ADD PRIMARY KEY (`rId`),
+  ADD KEY `bId` (`bId`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `image`
+--
+ALTER TABLE `image`
+  MODIFY `iId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `building`
+--
+ALTER TABLE `building`
+  ADD CONSTRAINT `building_ibfk_1` FOREIGN KEY (`aId`) REFERENCES `area` (`aId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `building_ibfk_2` FOREIGN KEY (`image`) REFERENCES `image` (`iId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `image`
+--
+ALTER TABLE `image`
+  ADD CONSTRAINT `image_ibfk_1` FOREIGN KEY (`buId`) REFERENCES `building` (`bId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `room`
+--
+ALTER TABLE `room`
+  ADD CONSTRAINT `room_ibfk_1` FOREIGN KEY (`bId`) REFERENCES `building` (`bId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
