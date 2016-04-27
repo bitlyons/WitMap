@@ -7,7 +7,7 @@ public class Consts {
     static int currentBuilding;
     static boolean edit = false;
     static boolean added = false;
-
+    static Area currentArea;
 
     public static boolean isEdit() {
         return edit;
@@ -28,4 +28,9 @@ public class Consts {
     public static int getCurrentBuilding() {
         return currentBuilding;
     }
+
+    public static Area getCurrentArea() {
+        return currentArea;
+    }
+
 }

@@ -168,14 +168,16 @@ public class Area extends FlowPane{
             if (e.getButton() == MouseButton.PRIMARY) openBuilding();
             if (e.getButton() == MouseButton.SECONDARY) {
                 ContextMenu rightClick = new ContextMenu();
+                MenuItem open = new MenuItem("Open");
                 MenuItem editSize = new MenuItem("Edit Area Size");
                 MenuItem moveArea = new MenuItem("Move Area");
                 MenuItem edit = new MenuItem("Edit Building Info");
                 MenuItem delete = new MenuItem("Delete Building");
                 MenuItem cancel = new MenuItem("Cancel");
-                rightClick.getItems().addAll(editSize, moveArea, edit, delete, cancel);
+                rightClick.getItems().addAll(open, editSize, moveArea, edit, delete, cancel);
                 rightClick.show(area, e.getScreenX(), e.getScreenY());
 
+                open.setOnAction(f -> openBuilding());
 
                 editSize.setOnAction(f -> {
                     Stage areaStage = new Stage();
@@ -234,6 +236,7 @@ public class Area extends FlowPane{
 
     private void openBuilding(){
         Stage buildingWindow = new Stage();
+        Consts.currentArea = this;
         Consts.currentBuilding = buildingNo;
         try {
             Parent root = FXMLLoader.load(getClass().getResource("../view/buildinginfo.fxml"));
@@ -248,6 +251,7 @@ public class Area extends FlowPane{
     }
 
     public void editBuilding(boolean edit) {
+        Consts.currentArea = this;
         Consts.currentBuilding = buildingNo;
         Consts.edit = edit;
         Stage buildingWindow = new Stage();
