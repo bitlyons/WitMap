@@ -72,7 +72,7 @@ public class MapController implements Initializable {
 
 
     @FXML
-    void cancelNewArea() {
+    public void cancelNewArea() {
         newAreaInsert.toBack();
         newAreaInsert.setOpacity(0);
         newWidthText.setText(null);

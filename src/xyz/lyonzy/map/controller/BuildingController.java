@@ -3,11 +3,13 @@ package xyz.lyonzy.map.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import xyz.lyonzy.map.model.Building;
 import xyz.lyonzy.map.model.Consts;
 import xyz.lyonzy.map.model.Database;
@@ -30,6 +32,8 @@ public class BuildingController implements Initializable{
     TableColumn roomsColums;
     @FXML
     Button close;
+    @FXML
+    MenuItem edit;
 
     Database database = new Database();
 
@@ -42,6 +46,11 @@ public class BuildingController implements Initializable{
            this.buildingText.setText(currentBuilding.getBuildingInfo());
            this.openingHours.setText(currentBuilding.getOpeningHours());
 
+           edit.setOnAction(e -> {
+               Consts.getCurrentArea().editBuilding(true);
+               close();
+           });
+
            try {
                this.buildingImageViw.setImage(new Image(currentBuilding.getImage()));
            } catch (Exception e) {
@@ -51,5 +60,11 @@ public class BuildingController implements Initializable{
            System.out.println("Error");
            e.printStackTrace();
        }
+    }
+
+    @FXML
+    void close() {
+        Stage stage = (Stage) close.getScene().getWindow();
+        stage.close();
     }
 }
