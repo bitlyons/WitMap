@@ -46,9 +46,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <MenuButton alignment="CENTER_RIGHT" contentDisplay="TOP" graphicTextGap="0.0" layoutX="976.0" layoutY="3.0"
-                        minHeight="3.0" minWidth="30.0" mnemonicParsing="false" popupSide="TOP" prefHeight="24.0"
-                        prefWidth="45.0">
+            <MenuButton alignment="CENTER_RIGHT" contentDisplay="TOP" graphicTextGap="0.0" layoutX="976.0" layoutY="3.0" minHeight="3.0" minWidth="30.0" mnemonicParsing="false" popupSide="TOP" prefHeight="24.0" prefWidth="45.0">
               <items>
                 <MenuItem fx:id="aboutMenuObject" mnemonicParsing="false" text="About" />
                   <Menu mnemonicParsing="false" text="Edit Map Areas">
@@ -62,6 +60,7 @@
                      </items>
                   </Menu>
                 <MenuItem fx:id="exitMenuObject" mnemonicParsing="false" text="Exit" />
+                  <MenuItem mnemonicParsing="false" onAction="#slideShow" text="Slideshow" />
               </items>
                <graphic>
                   <ImageView fitHeight="14.0" fitWidth="22.0" layoutX="5.0" pickOnBounds="true" preserveRatio="true">
@@ -79,29 +78,25 @@
             </MenuButton>
             <Pane fx:id="newAreaInsert" layoutX="400.0" layoutY="3.0" opacity="0.0" prefHeight="25.0" prefWidth="224.0">
                <children>
-                  <TextField fx:id="newWidthText" onAction="#newArea" prefHeight="25.0" prefWidth="48.0"
-                             promptText="Width">
+                  <TextField fx:id="newWidthText" onAction="#newArea" prefHeight="25.0" prefWidth="48.0" promptText="Width">
                      <font>
-                        <Font name="Arial" size="12.0"/>
+                        <Font name="Arial" size="12.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="newHeightText" layoutX="60.0" onAction="#newArea" prefHeight="25.0" prefWidth="51.0"
-                             promptText="Height">
+                  <TextField fx:id="newHeightText" layoutX="60.0" onAction="#newArea" prefHeight="25.0" prefWidth="51.0" promptText="Height">
                      <font>
-                        <Font name="Arial" size="12.0"/>
+                        <Font name="Arial" size="12.0" />
                      </font>
                   </TextField>
                   <Text layoutX="50.0" layoutY="17.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" textAlignment="CENTER" />
-                  <Button fx:id="cancelArea" layoutX="170.0" mnemonicParsing="false" onAction="#cancelNewArea"
-                          styleClass="warning" text="Cancel">
+                  <Button fx:id="cancelArea" layoutX="170.0" mnemonicParsing="false" onAction="#cancelNewArea" styleClass="warning" text="Cancel">
                      <font>
-                        <Font name="Arial" size="12.0"/>
+                        <Font name="Arial" size="12.0" />
                      </font>
                   </Button>
-                  <Button fx:id="createNewSubmit" layoutX="115.0" mnemonicParsing="false" onAction="#newSubmit"
-                          styleClass="success" text="Create">
+                  <Button fx:id="createNewSubmit" layoutX="115.0" mnemonicParsing="false" onAction="#newSubmit" styleClass="success" text="Create">
                      <font>
-                        <Font name="Arial" size="12.0"/>
+                        <Font name="Arial" size="12.0" />
                      </font>
                   </Button>
                </children>
@@ -110,7 +105,7 @@
                <children>
                   <Button layoutY="3.0" mnemonicParsing="false" onAction="#saveLocation" prefHeight="14.0" prefWidth="402.0" styleClass="success" text="Save Location" textAlignment="CENTER">
                      <font>
-                        <Font name="Arial" size="12.0"/>
+                        <Font name="Arial" size="12.0" />
                      </font>
                   </Button>
                </children>

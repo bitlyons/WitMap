@@ -31,9 +31,9 @@ public class BuildingController implements Initializable {
     @FXML
     Text buildingText, buildingName, openingHours;
     @FXML
-    TableView roomTable;
+    TableView<Room> roomTable;
     @FXML
-    TableColumn roomsColums;
+    TableColumn<Room, String> roomsColums;
     @FXML
     Button close;
     @FXML

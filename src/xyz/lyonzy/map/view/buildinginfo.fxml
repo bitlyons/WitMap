@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="431.0"
-            prefWidth="600.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="xyz.lyonzy.map.controller.BuildingController">
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="431.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.lyonzy.map.controller.BuildingController">
     <center>
         <TabPane prefHeight="367.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
             <tabs>
@@ -62,10 +73,13 @@
                             <children>
                                 <Pane layoutX="9.0" layoutY="3.0" prefHeight="315.0" prefWidth="583.0">
                                     <children>
-                                        <TableView fx:id="roomTable" layoutX="95.0" layoutY="7.0" prefHeight="299.0" prefWidth="419.0">
+                                        <TableView fx:id="roomTable" layoutX="102.0" layoutY="8.0" prefHeight="325.0" prefWidth="396.0">
                                             <columns>
-                                                <TableColumn fx:id="roomsColums" maxWidth="418.0" minWidth="418.0" prefWidth="418.0" resizable="false" text="Rooms" />
+                                                <TableColumn fx:id="roomsColums" maxWidth="418.0" minWidth="147.0" prefWidth="394.0" resizable="false" text="Rooms" />
                                             </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
                                         </TableView>
                                     </children>
                                 </Pane>
@@ -81,8 +95,8 @@
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem fx:id="edit" mnemonicParsing="false" text="Edit Data"/>
-                        <MenuItem mnemonicParsing="false" onAction="#close" text="Close"/>
+                        <MenuItem fx:id="edit" mnemonicParsing="false" text="Edit Data" />
+                        <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
                     </items>
                 </Menu>
             </menus>
@@ -94,7 +108,7 @@
     <bottom>
         <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="33.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="close" mnemonicParsing="false" onAction="#close" text="Close"/>
+                <Button fx:id="close" mnemonicParsing="false" onAction="#close" text="Close" />
             </children>
         </FlowPane>
     </bottom>

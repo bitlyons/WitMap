@@ -2,11 +2,15 @@ package xyz.lyonzy.map.controller;
 
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import xyz.lyonzy.map.model.Area;
 import xyz.lyonzy.map.model.Consts;
 import xyz.lyonzy.map.model.Database;
@@ -140,6 +144,19 @@ public class MapController implements Initializable {
 
     public void removeArea(Area area) {
         mapPane.getChildren().remove(area);
+    }
+
+    public void slideShow() {
+        try{
+        Stage slideshow = new Stage();
+        Parent slide = FXMLLoader.load(getClass().getResource("../view/slideshow.fxml"));
+        slideshow.setTitle("Waterford Institute of Technology Slideshow");
+        slideshow.setScene(new Scene(slide, 700, 510));
+        slideshow.setResizable(false);
+        slideshow.showAndWait();}
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 

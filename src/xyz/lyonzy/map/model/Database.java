@@ -232,4 +232,22 @@ public class Database {
         return 0;
     }
 
+    public ArrayList getAllImages(){
+        try {
+            stat = myConnection.createStatement();
+            String selectStatment = "Select * from image";
+            ResultSet images = stat.executeQuery(selectStatment);
+            ArrayList<String> imageList = new ArrayList<>();
+            while (images.next()) {
+                imageList.add(images.getString("iURL"));
+            }
+            return imageList;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+
+    }
+
 }
