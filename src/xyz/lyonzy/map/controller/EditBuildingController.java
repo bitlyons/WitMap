@@ -8,7 +8,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import xyz.lyonzy.map.misc.Alerts;
 import xyz.lyonzy.map.model.Building;
 import xyz.lyonzy.map.model.Consts;
 import xyz.lyonzy.map.model.Database;
@@ -29,18 +31,16 @@ public class EditBuildingController implements Initializable {
     @FXML
     Button submit, cancel;
     @FXML
-    TableColumn colRooms;
+    TableColumn<Room, String> colRooms;
     @FXML
-    TableView tableView;
-
-    int roomIndex;
-    Room oldRoom;
-    Room newRoom;
-
-    Database database = new Database();
-    Building currentBuilding;
+    TableView<Room> tableView;
     int imageRef;
-    ObservableList<Room> rooms;
+    private int roomIndex;
+    private Room oldRoom;
+    private Room newRoom;
+    private Database database = new Database();
+    private Building currentBuilding;
+    private ObservableList<Room> rooms;
 
     @FXML
     void submit() {
@@ -66,36 +66,69 @@ public class EditBuildingController implements Initializable {
         close(); //todo only close if no error was found
     }
 
+    private void createEditRoom(boolean edit) {
+        Stage stage = new Stage();
+        stage.setTitle(edit ? "Edit Room" : "Create New Room");
+        GridPane pane = new GridPane();
+
+        Label roomNameLab = new Label("RoomName");
+        TextField roomNameFi = new TextField();
+        if (edit) roomNameFi.setText(newRoom.getName());
+
+        pane.add(roomNameLab, 1, 1);
+        pane.add(roomNameFi, 2, 1);
+        pane.setHgap(5);
+        pane.setVgap(5);
+
+        Button submit = new Button("Submit");
+        submit.setOnAction(e -> {
+            if (roomNameFi.getText() != null) {
+                if (!edit) database.addRoom(currentBuilding.getBuildingNo(), roomNameFi.getText());
+                else {
+                    database.updateRoom(newRoom.getName(), roomNameFi.getText());
+                }
+                stage.close();
+            }
+        });
+        pane.add(submit, 2, 2);
+
+        stage.setScene(new Scene(pane, 270, 70));
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
+        tableViewUpdate();
+    }
+
 
     @FXML
-    void close() {
-        Consts.setEdit(false);
-        Stage stage = (Stage) submit.getScene().getWindow();
-        stage.close();
+    void addRoom() {
+        createEditRoom(false);
     }
 
     @FXML
-    void getRoom(){
-        Stage editRoom = new Stage();
-        Label roomLab = new Label("Room Name :");
-        TextField roomName = new TextField();
-        GridPane pane = new GridPane();
-        pane.add(roomLab, 1,1);
-        pane.add(roomName,2,1);
+    void editRoom() {
+        try {
+            createEditRoom(true);
+        } catch (NullPointerException e) {
+            Alerts.alert("Select a Room", "Please select a room below before pressing\nthis button");
+        }
+    }
 
-        Button save = new Button("Save");
-        save.setOnAction(e->{
-            database.updateRoom(roomName.getText(), newRoom.getName());
-            //re-get the rooms from the database and set it to the table view
-            currentBuilding.getRooms();
-            rooms = FXCollections.observableArrayList(Consts.rooms);
-            tableView.setItems(rooms);
-            editRoom.close();
-        });
 
-        pane.add(save,2,2);
-        editRoom.setScene(new Scene(pane, 270,70));
-        editRoom.showAndWait();
+    @FXML
+    void deleteRoom() {
+        try {
+            database.deleteRoom(newRoom.getName());
+            tableViewUpdate();
+        } catch (NullPointerException e) {
+            Alerts.alert("Select a Room", "Please select a room below before pressing\nthis button");
+        }
+    }
+
+    @FXML
+    private void close() {
+        Consts.setEdit(false);
+        Stage stage = (Stage) submit.getScene().getWindow();
+        stage.close();
     }
 
 
@@ -110,25 +143,13 @@ public class EditBuildingController implements Initializable {
                 bInfo.setText(currentBuilding.getBuildingInfo());
                 bOpeningHours.setText(currentBuilding.getOpeningHours());
 
-                currentBuilding.getRooms();
-                rooms = FXCollections.observableArrayList(Consts.rooms);
-                tableView.setItems(rooms);
-                colRooms.setCellValueFactory(new PropertyValueFactory<Room, String>("name"));
-
-                tableView.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
-                    if(oldValue instanceof Room) oldRoom = (Room) oldValue;
-                    if(newValue instanceof Room) newRoom = (Room) newValue;
-                            roomIndex = tableView.getSelectionModel().getSelectedIndex();
-                });
-
-
             } catch (Exception e) {
                 System.out.println("Error");
                 e.printStackTrace();
             }
-        } else{
+        } else {
             try {
-                System.out.println(Consts.getCurrentBuilding());
+
                 this.currentBuilding = new Building(Consts.getCurrentBuilding());
                 database.addBuilding(currentBuilding);
                 bId.setText(Integer.toString(currentBuilding.getBuildingNo()));
@@ -136,6 +157,23 @@ public class EditBuildingController implements Initializable {
                 e.printStackTrace();
             }
 
-            }
+        }
+
+
+        tableViewUpdate();
+        colRooms.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        tableView.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
+            oldRoom = oldValue;
+            newRoom = newValue;
+            roomIndex = tableView.getSelectionModel().getSelectedIndex();
+        });
+
+    }
+
+    private void tableViewUpdate() {
+        currentBuilding.getRooms();
+        rooms = FXCollections.observableArrayList(Consts.rooms);
+        tableView.setItems(rooms);
     }
 }

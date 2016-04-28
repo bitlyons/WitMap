@@ -62,6 +62,7 @@ public class BuildingController implements Initializable {
             });
 
             try {
+                if(!currentBuilding.getImage().equals("def" + currentBuilding.getBuildingNo()))
                 this.buildingImageViw.setImage(new Image(currentBuilding.getImage()));
             } catch (Exception e) {
                 System.out.println("no image");

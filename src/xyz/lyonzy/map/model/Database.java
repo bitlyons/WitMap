@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * Created by Brendan Lyons on 24/04/2016.
  * This file deals with connecting the database, and all the possible statements that the program can make to it
  */
+@SuppressWarnings("ALL")
 public class Database {
     private String username = "root";
     private String password = "root";
@@ -53,12 +54,11 @@ public class Database {
                 building.getBuildingNo() + ", \"" + building.getBuildingName() + "\", \"" +
                 building.getBuildingInfo() + "\" , \"" + building.getOpeningHours() + "\" )";
         int success = stat.executeUpdate(insertStatement);
-        System.out.println(success + " insert building");
+
 
         insertStatement = "Insert into image (buId, iURL) values (" + building.getBuildingNo() + "," + "\"def" +
                 building.getBuildingNo() + "\")";
         int success2 = stat.executeUpdate(insertStatement);
-        System.out.println(success2 + " insert image");
 
 
         String selectStatment = "Select * from image where iURL= \"" + "def" +
@@ -66,12 +66,12 @@ public class Database {
         ResultSet x = stat.executeQuery(selectStatment);
         x.next();
         int id = x.getInt("iId");
-        System.out.println(id);
+
         /* insertStatement = "UPDATE building set image = (SELECT iId from image where iURL =\"" + "def" +
                 building.getBuildingNo() + "\") where bId =" + building.getBuildingNo(); */
         insertStatement = "UPDATE building set image =" + id + " WHERE bId = '" + building.getBuildingNo() + "'";
         int success3 = stat.executeUpdate(insertStatement);
-        System.out.println(success3 + " add image to building");
+
 
         return (success + success2 + success3) / 3;
     }
@@ -102,6 +102,8 @@ public class Database {
         try {
             stat = myConnection.createStatement();
             String deleteStatement = "Delete from Building where bId= " + bId;
+            stat.executeUpdate(deleteStatement);
+            deleteStatement = "Delete from room where bId= " + bId;
             return stat.executeUpdate(deleteStatement) == 1;
         } catch (Exception e) {
             return false;
@@ -197,14 +199,36 @@ public class Database {
 
     }
 
-    public int updateRoom(String roomName, String oldRoomName){
+    public int updateRoom(String oldRoomName, String roomName){
             try {
                 stat = myConnection.createStatement();
                 String insertStatement = "Update room set rName = \"" +roomName+ "\" where rName =\"" + oldRoomName +"\"";
               return stat.executeUpdate(insertStatement);
             }catch (Exception e){
-                System.out.println(223934959);
+                System.out.println("error");
             }
+        return 0;
+    }
+
+    public boolean addRoom(int bId, String rName) {
+        try {
+            stat = myConnection.createStatement();
+            String deleteStatement = "Insert into room (bId, rName) values (" + bId + ", \"" +rName +"\")";
+            return stat.executeUpdate(deleteStatement) == 1;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+
+    public int deleteRoom(String oldRoomName){
+        try {
+            stat = myConnection.createStatement();
+            String insertStatement = "Delete from room where rName= \"" + oldRoomName +"\"";
+            return stat.executeUpdate(insertStatement);
+        }catch (Exception e){
+            System.out.println("error");
+        }
         return 0;
     }
 

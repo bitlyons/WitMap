@@ -19,7 +19,15 @@ public class Alerts {
         alert.setContentText("Are you sure you wish to do that? this action \nis non-reversible!!!");
 
         Optional<ButtonType> result = alert.showAndWait();
-
         return result.get() == ButtonType.OK;
+
+    }
+
+    public static void alert(String title, String info){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setContentText(info);
+        alert.setHeaderText(null);
+        alert.showAndWait();
     }
 }
