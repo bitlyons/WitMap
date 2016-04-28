@@ -282,4 +282,8 @@ public class Area extends FlowPane{
     class MousePosition {
         double x, y;
     }
+
+    public void setBuildingNo(int buildingNo) {
+        this.buildingNo = buildingNo;
+    }
 }

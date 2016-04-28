@@ -1,6 +1,7 @@
 package xyz.lyonzy.map.controller;
 
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.RadioMenuItem;
@@ -26,9 +27,11 @@ public class MapController implements Initializable {
     Pane newAreaInsert, mapPane, saveLocationArea;
     @FXML
     RadioMenuItem editMapOff;
-    Database database = new Database();
-    Tooltip minMaxSize = new Tooltip("Min size 20x20, Max 600x600");
-    Area x;
+    private Database database = new Database();
+    private Tooltip minMaxSize = new Tooltip("Min size 20x20, Max 600x600");
+    private Area newArea;
+    private int tWidth = 0, tHeight = 0;
+    private boolean reset = false;
 
     @FXML
     void newArea() {
@@ -41,33 +44,48 @@ public class MapController implements Initializable {
 
     @FXML
     void newSubmit() {
-        Area x = new Area();
-        int width = 0, height = 0;
+        newArea = new Area();
+
         try {
-            width = Integer.parseInt(newWidthText.getText());
-            height = Integer.parseInt(newHeightText.getText());
+            tWidth = Integer.parseInt(newWidthText.getText());
+            tHeight = Integer.parseInt(newHeightText.getText());
         } catch (Exception e) {
             //todo Alert needing to be numbers
             System.out.println("issue");
         }
         try {
-            if (width >= 20 && width <= 600 && height >= 20 && height <= 600) {
-                database.addArea(x);
-                mapPane.getChildren().add(x.setupArea(width, height));
-                saveLocationArea.setOpacity(1);
-                saveLocationArea.toFront();
+            if (tWidth >= 20 && tWidth <= 600 && tHeight >= 20 && tHeight <= 600) {
+                attemptAddingArea();
             }
         } catch (Exception e) {
             //alert error creating area
         }
 
-        if (width >= 20 || width > 600 || height >= 20 || height > 600) ;//alert must be between 5x5 and 600x600;
+        if (tWidth >= 20 || tWidth > 600 || tHeight >= 20 || tHeight > 600) ;//alert must be between 5x5 and 600x600;
+        else {
+            reset = false;
+            cancelNewArea();
+            newArea.enableMove();
+            newArea.disableOpenBuilding();
 
-        cancelNewArea();
-        x.enableMove();
-        x.disableOpenBuilding();
+            newArea.editBuilding(false);
+        }
+    }
 
-        x.editBuilding(false);
+    private void attemptAddingArea() {
+        try {
+            database.addArea(newArea);
+            mapPane.getChildren().add(newArea.setupArea(tWidth, tHeight));
+            saveLocationArea.setOpacity(1);
+            saveLocationArea.toFront();
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            newArea.setBuildingNo(newArea.getBuildingNo() + 1);
+            attemptAddingArea(); // FIXME: 28/04/16 (temp solution)
+            reset = false;
+            System.out.println("test");
+        } catch (Exception e) {
+
+        }
     }
 
 

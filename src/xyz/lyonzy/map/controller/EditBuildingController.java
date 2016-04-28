@@ -1,14 +1,18 @@
 package xyz.lyonzy.map.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import xyz.lyonzy.map.model.Building;
 import xyz.lyonzy.map.model.Consts;
 import xyz.lyonzy.map.model.Database;
+import xyz.lyonzy.map.model.Room;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,11 +28,19 @@ public class EditBuildingController implements Initializable {
     TextArea bInfo, bOpeningHours;
     @FXML
     Button submit, cancel;
+    @FXML
+    TableColumn colRooms;
+    @FXML
+    TableView tableView;
+
+    int roomIndex;
+    Room oldRoom;
+    Room newRoom;
 
     Database database = new Database();
     Building currentBuilding;
     int imageRef;
-
+    ObservableList<Room> rooms;
 
     @FXML
     void submit() {
@@ -62,6 +74,31 @@ public class EditBuildingController implements Initializable {
         stage.close();
     }
 
+    @FXML
+    void getRoom(){
+        Stage editRoom = new Stage();
+        Label roomLab = new Label("Room Name :");
+        TextField roomName = new TextField();
+        GridPane pane = new GridPane();
+        pane.add(roomLab, 1,1);
+        pane.add(roomName,2,1);
+
+        Button save = new Button("Save");
+        save.setOnAction(e->{
+            database.updateRoom(roomName.getText(), newRoom.getName());
+            //re-get the rooms from the database and set it to the table view
+            currentBuilding.getRooms();
+            rooms = FXCollections.observableArrayList(Consts.rooms);
+            tableView.setItems(rooms);
+            editRoom.close();
+        });
+
+        pane.add(save,2,2);
+        editRoom.setScene(new Scene(pane, 270,70));
+        editRoom.showAndWait();
+    }
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (Consts.isEdit()) {
@@ -72,11 +109,24 @@ public class EditBuildingController implements Initializable {
                 biURL.setText(currentBuilding.getImage());
                 bInfo.setText(currentBuilding.getBuildingInfo());
                 bOpeningHours.setText(currentBuilding.getOpeningHours());
+
+                currentBuilding.getRooms();
+                rooms = FXCollections.observableArrayList(Consts.rooms);
+                tableView.setItems(rooms);
+                colRooms.setCellValueFactory(new PropertyValueFactory<Room, String>("name"));
+
+                tableView.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
+                    if(oldValue instanceof Room) oldRoom = (Room) oldValue;
+                    if(newValue instanceof Room) newRoom = (Room) newValue;
+                            roomIndex = tableView.getSelectionModel().getSelectedIndex();
+                });
+
+
             } catch (Exception e) {
                 System.out.println("Error");
                 e.printStackTrace();
             }
-        } else
+        } else{
             try {
                 System.out.println(Consts.getCurrentBuilding());
                 this.currentBuilding = new Building(Consts.getCurrentBuilding());
@@ -84,6 +134,8 @@ public class EditBuildingController implements Initializable {
                 bId.setText(Integer.toString(currentBuilding.getBuildingNo()));
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+
             }
     }
 }

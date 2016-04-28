@@ -1,6 +1,8 @@
 package xyz.lyonzy.map.model;
 
 
+import java.util.ArrayList;
+
 public class Consts {
 
     static int noOfBuildings = 0;
@@ -8,7 +10,7 @@ public class Consts {
     static boolean edit = false;
     static boolean added = false;
     static Area currentArea;
-
+    public static ArrayList<Room> rooms;
     public static boolean isEdit() {
         return edit;
     }

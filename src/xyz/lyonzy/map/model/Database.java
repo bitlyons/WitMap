@@ -3,6 +3,7 @@ package xyz.lyonzy.map.model;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  * Created by Brendan Lyons on 24/04/2016.
@@ -177,6 +178,34 @@ public class Database {
                 ",width = " + width + " WHERE aId = " + aId;
         int success = stat.executeUpdate(insertStatement);
         return success;
+    }
+
+    public ArrayList<Room> getRooms(int bId) {
+        try {
+            stat = myConnection.createStatement();
+            String selectStatment = "Select * from room where bId = " + bId;
+            ResultSet rooms = stat.executeQuery(selectStatment);
+            ArrayList<Room> roomsList = new ArrayList<>();
+            while (rooms.next()) {
+                roomsList.add(new Room(rooms.getInt("rId"), rooms.getInt("bId"), rooms.getString("rName")));
+            }
+            return roomsList;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
+    public int updateRoom(String roomName, String oldRoomName){
+            try {
+                stat = myConnection.createStatement();
+                String insertStatement = "Update room set rName = \"" +roomName+ "\" where rName =\"" + oldRoomName +"\"";
+              return stat.executeUpdate(insertStatement);
+            }catch (Exception e){
+                System.out.println(223934959);
+            }
+        return 0;
     }
 
 }

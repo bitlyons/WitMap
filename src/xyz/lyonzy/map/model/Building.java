@@ -1,5 +1,7 @@
 package xyz.lyonzy.map.model;
 
+import java.util.ArrayList;
+
 /**
  * Created by brendan Lyons on 25/04/2016.
  * This class deals with buildings, primarily used for displaying them
@@ -11,6 +13,7 @@ public class Building {
     private String buildingInfo;
     private String image;
     private int imageRef;
+    ArrayList<Room> rooms = new ArrayList<>();
 
     public Building(int buildingNo, String buildingName, String openingHours, String buildingInfo, String image, int imageRef) {
         this.buildingNo = buildingNo;
@@ -75,5 +78,21 @@ public class Building {
 
     public void setImageRef(int imageRef) {
         this.imageRef = imageRef;
+    }
+
+    public ArrayList getRooms(){
+        Database database = new Database();
+        this.rooms = database.getRooms(buildingNo);
+        Consts.rooms = this.rooms;
+        return this.rooms;
+    }
+
+
+    public void addRoom(Room newRoom){
+        this.rooms.add(newRoom);
+    }
+
+    public void removeRoom(Room removeRoom){
+        this.rooms.remove(removeRoom);
     }
 }

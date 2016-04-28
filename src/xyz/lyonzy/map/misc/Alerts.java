@@ -16,7 +16,7 @@ public class Alerts {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Building");
         alert.setHeaderText("It looks like you wish to delete this building");
-        alert.setContentText("Are you sure you wish to do that? this action is non-reversible!!!");
+        alert.setContentText("Are you sure you wish to do that? this action \nis non-reversible!!!");
 
         Optional<ButtonType> result = alert.showAndWait();
 
