@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
+-- version 4.5.3.1
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Apr 27, 2016 at 05:31 AM
--- Server version: 10.1.13-MariaDB
+-- Host: localhost
+-- Generation Time: Apr 29, 2016 at 04:58 AM
+-- Server version: 10.0.23-MariaDB
 -- PHP Version: 5.6.20
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -30,8 +30,8 @@ CREATE TABLE `area` (
   `aId` int(11) NOT NULL,
   `x` decimal(11,0) NOT NULL,
   `y` decimal(11,0) NOT NULL,
-  `height` decimal(11,0) NOT NULL,
-  `width` decimal(11,0) NOT NULL
+  `height` decimal(11,0) NOT NULL DEFAULT '20',
+  `width` decimal(11,0) NOT NULL DEFAULT '20'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -39,7 +39,8 @@ CREATE TABLE `area` (
 --
 
 INSERT INTO `area` (`aId`, `x`, `y`, `height`, `width`) VALUES
-(1, '733', '404', '100', '100');
+(1, '436', '354', '100', '100'),
+(2, '751', '449', '39', '39');
 
 -- --------------------------------------------------------
 
@@ -61,7 +62,7 @@ CREATE TABLE `building` (
 --
 
 INSERT INTO `building` (`bId`, `bName`, `bInfo`, `bOpeningHours`, `aId`, `image`) VALUES
-(1, 'Test building 125', 'just some gibberish test info here. just some gibberish test info here. \njust some gibberish test info here. just some gibberish test info here.\njust some gibberish test info here. just some gibberish test info here. just some\n gibberish test info here. just some gibberish test info here.just some gibberish\ntest info here. just some gibberish test info here. just some gibberish test info here. \nust some gibberish test info here.just some gibberish test info here. just some gib\nberish test info here. just some gibberish test info here. just some gibb\nerish test info here.just some gibberish test info here. just some gibberish tes\nt info here. just some gibberish test info here. just some gibberish test info here.j\nust some gibberish test info here. just some gibberish test info here. just some gib\nberish test info here. just some gibberish test info here.just some gibberish test in\nfo here. just some gibberish test info here. just some gibberish test info here. just\n some gibberish test info here.just some gibberish test info here. just some gibbe\nrish test info here. just some gibberish test info here. just some gibberish test inf\no here.just some gibberish test info here. just some gibberish test info here. just \nsome gibberish test info here. just some gibberish test info here.just some gibber\nish test info here. just some gibberish test info here. just some gibberish test info h\nere. just some gibberish test info here.just some gibberish test info here. just some\n gibberish test info here. just some gibberish test info here. just some gibberish test info here.', 'mon\ntues\nwed\nthurs\nfri\nsat\nsun\n', 1, 1);
+(1, '1969 Main Building', 'This building contains the reception, \nWitCard office, \nAib Branch\nAib ATM.\nThe Canteen,\nInternational Office,\n\nand Morre ', 'Mon    8.00am to 10.00pm\nTues   8.00am to 10.00pm\nWed   8.00am to 10.00pm\nThurs 8.00am to 10.00pm\nFri      8.00am to 7.00pm\nSat    Opening times will vary, please check notices\nSun   Closed\n', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -80,7 +81,8 @@ CREATE TABLE `image` (
 --
 
 INSERT INTO `image` (`iId`, `buId`, `iURL`) VALUES
-(1, 1, 'http://www.narincomicro.com/productimage/158.jpg');
+(1, 1, '../'),
+(36, 1, 'http://www.narincomicro.com/productimage/158.jpg');
 
 -- --------------------------------------------------------
 
@@ -91,8 +93,20 @@ INSERT INTO `image` (`iId`, `buId`, `iURL`) VALUES
 CREATE TABLE `room` (
   `rId` int(11) NOT NULL,
   `bId` int(11) NOT NULL,
-  `rName` text NOT NULL
+  `rName` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `room`
+--
+
+INSERT INTO `room` (`rId`, `bId`, `rName`) VALUES
+(7, 1, 'D1'),
+(8, 1, 'D2'),
+(10, 1, 'D3'),
+(11, 1, 'D4'),
+(13, 1, 'D5'),
+(14, 1, 'D6');
 
 --
 -- Indexes for dumped tables
@@ -124,6 +138,7 @@ ALTER TABLE `image`
 --
 ALTER TABLE `room`
   ADD PRIMARY KEY (`rId`),
+  ADD UNIQUE KEY `rName` (`rName`),
   ADD KEY `bId` (`bId`);
 
 --
@@ -134,7 +149,12 @@ ALTER TABLE `room`
 -- AUTO_INCREMENT for table `image`
 --
 ALTER TABLE `image`
-  MODIFY `iId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `iId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+--
+-- AUTO_INCREMENT for table `room`
+--
+ALTER TABLE `room`
+  MODIFY `rId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- Constraints for dumped tables
 --
