@@ -62,8 +62,10 @@ public class BuildingController implements Initializable {
             });
 
             try {
-                if(!currentBuilding.getImage().equals("def" + currentBuilding.getBuildingNo()))
-                this.buildingImageViw.setImage(new Image(currentBuilding.getImage()));
+                if (!currentBuilding.getImage().equals("def" + currentBuilding.getBuildingNo())) {
+                    this.buildingImageViw.setImage(new Image(currentBuilding.getImage().contains("http") || currentBuilding.getImage().contains("www") ?
+                            currentBuilding.getImage() : "file:" + currentBuilding.getImage()));
+                }
             } catch (Exception e) {
                 System.out.println("no image");
             }
