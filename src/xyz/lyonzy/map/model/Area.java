@@ -230,7 +230,7 @@ public class Area extends FlowPane{
         this.setOnMouseClicked(e->{});
     }
 
-    private void openBuilding(){
+    public void openBuilding(){
         Stage buildingWindow = new Stage();
         Consts.currentArea = this;
         Consts.currentBuilding = buildingNo;

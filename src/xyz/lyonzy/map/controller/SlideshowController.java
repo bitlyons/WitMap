@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
  * This class controls the slide show
  */
 public class SlideshowController implements Initializable{
-@FXML
+    @FXML
     Pagination slidepage;
     @FXML
     CheckBox at;
@@ -35,19 +35,19 @@ public class SlideshowController implements Initializable{
     @FXML void slideshow(){
         slidepage.setPageCount(images.size());
         slidepage.setPageFactory((Integer pageIndex) -> {
-           ImageView image = new ImageView();
-           image.setImage(new Image(images.get(pageIndex)));
+            ImageView image = new ImageView();
+            image.setImage(new Image(images.get(pageIndex)));
             image.preserveRatioProperty();
             image.setFitHeight(430);
             image.preserveRatioProperty();
-           return image;});
+            return image;});
     }
 
     @FXML void startAnimating() {
-             wait3Secs = new Timeline(new KeyFrame(Duration.seconds(3), e -> {
-                int pos = (slidepage.getCurrentPageIndex() + 1) % slidepage.getPageCount();
-                slidepage.setCurrentPageIndex(pos);
-            }));
+        wait3Secs = new Timeline(new KeyFrame(Duration.seconds(3), e -> {
+            int pos = (slidepage.getCurrentPageIndex() + 1) % slidepage.getPageCount();
+            slidepage.setCurrentPageIndex(pos);
+        }));
 
         wait3Secs.setCycleCount(Timeline.INDEFINITE);
     }
@@ -58,9 +58,7 @@ public class SlideshowController implements Initializable{
             wait3Secs.play();
         }
         else{
-
             wait3Secs.stop();
-
         }
     }
 

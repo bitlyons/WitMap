@@ -6,17 +6,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.RadioMenuItem;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import xyz.lyonzy.map.model.Area;
+import xyz.lyonzy.map.model.Building;
 import xyz.lyonzy.map.model.Consts;
 import xyz.lyonzy.map.model.Database;
 
 import java.net.URL;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -30,6 +31,11 @@ public class MapController implements Initializable {
     Pane newAreaInsert, mapPane, saveLocationArea;
     @FXML
     RadioMenuItem editMapOff;
+    @FXML
+    Button addArea;
+    @FXML
+    Menu allBuildings;
+
     Database database = new Database();
     Tooltip minMaxSize = new Tooltip("Min size 20x20, Max 600x600");
     Area x;
@@ -67,11 +73,13 @@ public class MapController implements Initializable {
 
         if (width < 20 || width > 600 && height < 20 || height > 600) ;//alert must be between 5x5 and 600x600;
 
-        else{
+        else {
             cancelNewArea();
             x.enableMove();
             x.disableOpenBuilding();
             x.editBuilding(false);
+            allBuildings.getItems().clear();
+            getAllBuldingNames();
 
         }
     }
@@ -147,21 +155,45 @@ public class MapController implements Initializable {
     }
 
     public void slideShow() {
-        try{
-        Stage slideshow = new Stage();
-        Parent slide = FXMLLoader.load(getClass().getResource("../view/slideshow.fxml"));
-        slideshow.setTitle("Waterford Institute of Technology Slideshow");
-        slideshow.setScene(new Scene(slide, 700, 510));
-        slideshow.setResizable(false);
-        slideshow.showAndWait();}
-        catch (Exception e){
+        try {
+            Stage slideshow = new Stage();
+            Parent slide = FXMLLoader.load(getClass().getResource("../view/slideshow.fxml"));
+            slideshow.setTitle("Waterford Institute of Technology Slideshow");
+            slideshow.setScene(new Scene(slide, 700, 510));
+            slideshow.setResizable(false);
+            slideshow.initModality(Modality.APPLICATION_MODAL);
+            slideshow.showAndWait();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    private void getAllBuldingNames() {
+        ArrayList<Building> tempList = database.buildingNames();
+
+        for (Building building : tempList) {
+            MenuItem newMenu = new MenuItem(building.getBuildingName());
+            allBuildings.getItems().add(newMenu);
+
+            newMenu.setOnAction(e -> {
+                for (int i = 0; i < mapPane.getChildren().size(); i++) {
+                    if (mapPane.getChildren().get(i) instanceof Area) {
+                        if (((Area) mapPane.getChildren().get(i)).getBuildingNo() == building.getBuildingNo())
+                            ((Area) mapPane.getChildren().get(i)).openBuilding();
+                    }
+                }
+            });
+
+
+        }
+
+    }
 
     @Override
+
     public void initialize(URL location, ResourceBundle resources) {
+        getAllBuldingNames();
+        addArea.setTooltip(new Tooltip("Add New Area"));
         Consts.setNoOfBuildings(database.numberOfAreas());
         if (Consts.getNoOfBuildings() > 0) {
             ResultSet areas = database.getAllArea();

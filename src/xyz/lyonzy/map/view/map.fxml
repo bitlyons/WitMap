@@ -59,8 +59,9 @@
                         <RadioMenuItem fx:id="editMapOff" mnemonicParsing="false" onAction="#disableMoveAll" selected="true" text="Off" toggleGroup="$editMap" />
                      </items>
                   </Menu>
-                <MenuItem fx:id="exitMenuObject" mnemonicParsing="false" text="Exit" />
+                  <Menu fx:id="allBuildings" mnemonicParsing="false" text="Buildings" />
                   <MenuItem mnemonicParsing="false" onAction="#slideShow" text="Slideshow" />
+                <MenuItem fx:id="exitMenuObject" mnemonicParsing="false" text="Exit" />
               </items>
                <graphic>
                   <ImageView fitHeight="14.0" fitWidth="22.0" layoutX="5.0" pickOnBounds="true" preserveRatio="true">

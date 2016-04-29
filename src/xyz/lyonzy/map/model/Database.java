@@ -30,6 +30,27 @@ public class Database {
         }
     }
 
+    public ArrayList<Building> buildingNames(){
+        try{
+            ArrayList<Building> names = new ArrayList<>();
+            stat = myConnection.createStatement();
+            String selectStatment = "Select * from building JOIN image ON  building.image = image.iId";
+            ResultSet building = stat.executeQuery(selectStatment);
+
+            while (building.next()){
+                names.add(new Building(building.getInt("bId"), building.getString("bName"), building.getString("bOpeningHours"),
+                        building.getString("bInfo"), building.getString("iURL"), building.getInt("iId")));
+
+            }
+            return names;
+        }
+        catch (Exception e){e.printStackTrace();
+        return null;
+        }
+    }
+
+
+
     public Building getBuilding(int buildingId) throws Exception {
         try {
             stat = myConnection.createStatement();
@@ -196,8 +217,10 @@ public class Database {
             e.printStackTrace();
         }
         return null;
-
     }
+
+
+
 
     public int updateRoom(String oldRoomName, String roomName){
             try {
