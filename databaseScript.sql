@@ -21,7 +21,8 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
-
+Create database `witmap`;
+use witmap;
 --
 -- Table structure for table `area`
 --

@@ -317,7 +317,7 @@ public class Database {
     public int updateImage(String oldurl, String url){
         try {
             stat = myConnection.createStatement();
-            String insertStatement = "Update image set iURL = \"" +url+ "\" where rName =\"" + oldurl +"\"";
+            String insertStatement = "Update image set iURL = \"" + url + "\" where iURL =\"" + oldurl + "\"";
             return stat.executeUpdate(insertStatement);
         }catch (Exception e){
             System.out.println("error");
