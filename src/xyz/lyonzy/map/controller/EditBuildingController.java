@@ -183,6 +183,7 @@ public class EditBuildingController implements Initializable {
     }
     @FXML private void deleteImage(){
         database.deleteImage(newImage);
+        tableViewUpdate();
     }
 
 
@@ -229,7 +230,8 @@ public class EditBuildingController implements Initializable {
             oldImage = oldValue;
             newImage = newValue;
             try{
-                imageViewOther.setImage(new Image(newImage));
+                imageViewOther.setImage(new Image(newImage.contains("http") || currentBuilding.getImage().contains("www") ?
+                        newImage : "file:" + currentBuilding.getImage()));
             } catch (Exception e){  }
         });
 

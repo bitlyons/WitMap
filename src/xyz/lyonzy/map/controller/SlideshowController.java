@@ -36,10 +36,10 @@ public class SlideshowController implements Initializable{
         slidepage.setPageCount(images.size());
         slidepage.setPageFactory((Integer pageIndex) -> {
             ImageView image = new ImageView();
-            image.setImage(new Image(images.get(pageIndex)));
-            image.preserveRatioProperty();
-            image.setFitHeight(430);
-            image.preserveRatioProperty();
+            image.setImage(new Image(images.get(pageIndex).contains("http") || images.get(pageIndex).contains("www")?
+                    images.get(pageIndex) : "file:" +  images.get(pageIndex),500,400,true,false));
+
+
             return image;});
     }
 
