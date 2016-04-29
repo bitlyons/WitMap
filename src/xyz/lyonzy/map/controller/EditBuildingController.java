@@ -20,6 +20,7 @@ import xyz.lyonzy.map.model.Database;
 import xyz.lyonzy.map.model.Room;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -36,7 +37,7 @@ public class EditBuildingController implements Initializable {
     @FXML
     TableColumn<Room, String> colRooms;
     @FXML
-    TableColumn<String, String > imageCol;
+    TableColumn<String, String> imageCol;
     @FXML
     TableView<String> imageTab;
     @FXML
@@ -144,7 +145,7 @@ public class EditBuildingController implements Initializable {
     }
 
 
-    private void image(boolean edit){
+    private void image(boolean edit) {
         Stage istage = new Stage();
         istage.setTitle(edit ? "Edit Image Url" : "Create New Image");
         GridPane pane = new GridPane();
@@ -161,7 +162,7 @@ public class EditBuildingController implements Initializable {
         Button submit = new Button("Submit");
         submit.setOnAction(e -> {
             if (imageurl.getText() != null) {
-                if (!edit) database.addImage(currentBuilding.getBuildingNo(),imageurl.getText());
+                if (!edit) database.addImage(currentBuilding.getBuildingNo(), imageurl.getText());
                 else database.updateImage(newImage, imageurl.getText());
                 istage.close();
             }
@@ -175,17 +176,24 @@ public class EditBuildingController implements Initializable {
     }
 
 
-    @FXML private void addImage(){
+    @FXML
+    private void addImage() {
         image(false);
     }
-    @FXML private void editImage(){
+
+    @FXML
+    private void editImage() {
         image(true);
     }
-    @FXML private void deleteImage(){
-        database.deleteImage(newImage);
-        tableViewUpdate();
-    }
 
+    @FXML
+    private void deleteImage() {
+        if(!currentBuilding.getImage().equals(newImage))
+        {
+            database.deleteImage(newImage);
+            tableViewUpdate();
+        }
+    }
 
 
     @Override
@@ -229,13 +237,13 @@ public class EditBuildingController implements Initializable {
         imageTab.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             oldImage = oldValue;
             newImage = newValue;
-            try{
-                imageViewOther.setImage(new Image(newImage.contains("http") || currentBuilding.getImage().contains("www") ?
-                        newImage : "file:" + currentBuilding.getImage()));
-            } catch (Exception e){  }
+            try {
+                imageViewOther.setImage(new Image(newImage.contains("http") || newImage.contains("www") ?
+                        newImage : "file:" + newImage));
+            } catch (Exception e) {
+
+            }
         });
-
-
 
     }
 
@@ -244,7 +252,8 @@ public class EditBuildingController implements Initializable {
         rooms = FXCollections.observableArrayList(Consts.rooms);
         tableView.setItems(rooms);
 
-        images = FXCollections.observableArrayList(database.getImages(currentBuilding.getBuildingNo()));
+        ArrayList<String> imageList = database.getImages(currentBuilding.getBuildingNo());
+        images = FXCollections.observableArrayList(imageList);
         imageTab.setItems(images);
     }
 }

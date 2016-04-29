@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -56,11 +57,15 @@
                                                 <Image url="@../resources/image-placeholder.jpg" />
                                             </image>
                                         </ImageView>
-                                        <TextFlow layoutX="248.0" layoutY="27.0" prefHeight="244.0" prefWidth="322.0">
-                                            <children>
-                                                <Text fx:id="buildingText" strokeType="OUTSIDE" strokeWidth="0.0" text="This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here." wrappingWidth="314.5611877441406" />
-                                            </children>
-                                        </TextFlow>
+                              <ScrollPane layoutX="248.0" layoutY="27.0" prefHeight="296.0" prefWidth="343.0">
+                                 <content>
+                                              <TextFlow prefHeight="292.0" prefWidth="328.0">
+                                                  <children>
+                                                      <Text fx:id="buildingText" strokeType="OUTSIDE" strokeWidth="0.0" text="This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here. This area should have info about the building here." wrappingWidth="314.5611877441406" />
+                                                  </children>
+                                              </TextFlow>
+                                 </content>
+                              </ScrollPane>
                                     </children>
                                 </Pane>
                             </children>
@@ -87,6 +92,20 @@
                         </AnchorPane>
                     </content>
                 </Tab>
+            <Tab text="Images">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ScrollPane fx:id="scrPane" layoutX="6.0" layoutY="5.0" prefHeight="330.0" prefWidth="179.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                          </content>
+                        </ScrollPane>
+                        <ImageView fx:id="imageView" fitHeight="313.0" fitWidth="405.0" layoutX="187.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
             </tabs>
         </TabPane>
     </center>

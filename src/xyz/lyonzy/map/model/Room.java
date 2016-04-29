@@ -4,9 +4,9 @@ package xyz.lyonzy.map.model;
  * Created by Brendan Lyons on 27/04/16.
  */
 public class Room {
+    String name;
     private int roomId;
     private int buildingId;
-     String name;
 
     public Room(int roomId, int buildingId, String roomName) {
         this.roomId = roomId;

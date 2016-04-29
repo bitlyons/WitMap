@@ -7,13 +7,13 @@ import java.util.ArrayList;
  * This class deals with buildings, primarily used for displaying them
  */
 public class Building {
+    ArrayList<Room> rooms = new ArrayList<>();
     private int buildingNo;
     private String buildingName;
     private String openingHours;
     private String buildingInfo;
     private String image;
     private int imageRef;
-    ArrayList<Room> rooms = new ArrayList<>();
 
     public Building(int buildingNo, String buildingName, String openingHours, String buildingInfo, String image, int imageRef) {
         this.buildingNo = buildingNo;
@@ -80,7 +80,7 @@ public class Building {
         this.imageRef = imageRef;
     }
 
-    public ArrayList getRooms(){
+    public ArrayList getRooms() {
         Database database = new Database();
         this.rooms = database.getRooms(buildingNo);
         Consts.rooms = this.rooms;
@@ -88,11 +88,11 @@ public class Building {
     }
 
 
-    public void addRoom(Room newRoom){
+    public void addRoom(Room newRoom) {
         this.rooms.add(newRoom);
     }
 
-    public void removeRoom(Room removeRoom){
+    public void removeRoom(Room removeRoom) {
         this.rooms.remove(removeRoom);
     }
 }

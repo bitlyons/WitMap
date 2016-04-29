@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
  * Created by Brendan Lyons on 28/04/16.
  * This class controls the slide show
  */
-public class SlideshowController implements Initializable{
+public class SlideshowController implements Initializable {
     @FXML
     Pagination slidepage;
     @FXML
@@ -27,23 +27,24 @@ public class SlideshowController implements Initializable{
     ArrayList<String> images = new ArrayList<>();
     Timeline wait3Secs = new Timeline();
 
-    private void getImages(){
+    private void getImages() {
         Database database = new Database();
         images = database.getAllImages();
     }
 
-    @FXML void slideshow(){
+    @FXML
+    void slideshow() {
         slidepage.setPageCount(images.size());
         slidepage.setPageFactory((Integer pageIndex) -> {
             ImageView image = new ImageView();
-            image.setImage(new Image(images.get(pageIndex).contains("http") || images.get(pageIndex).contains("www")?
-                    images.get(pageIndex) : "file:" +  images.get(pageIndex),500,400,true,false));
-
-
-            return image;});
+            image.setImage(new Image(images.get(pageIndex).contains("http") || images.get(pageIndex).contains("www") ?
+                    images.get(pageIndex) : "file:" + images.get(pageIndex), 500, 400, true, false));
+            return image;
+        });
     }
 
-    @FXML void startAnimating() {
+    @FXML
+    void startAnimating() {
         wait3Secs = new Timeline(new KeyFrame(Duration.seconds(3), e -> {
             int pos = (slidepage.getCurrentPageIndex() + 1) % slidepage.getPageCount();
             slidepage.setCurrentPageIndex(pos);
@@ -52,16 +53,15 @@ public class SlideshowController implements Initializable{
         wait3Secs.setCycleCount(Timeline.INDEFINITE);
     }
 
-    @FXML void animate(){
-        if (at.isSelected()){
+    @FXML
+    void animate() {
+        if (at.isSelected()) {
             startAnimating();
             wait3Secs.play();
-        }
-        else{
+        } else {
             wait3Secs.stop();
         }
     }
-
 
 
     @Override

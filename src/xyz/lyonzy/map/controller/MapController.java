@@ -131,7 +131,7 @@ public class MapController implements Initializable {
     }
 
     @FXML
-    private void about(){
+    private void about() {
         Alerts.about();
     }
 

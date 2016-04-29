@@ -23,7 +23,7 @@ import xyz.lyonzy.map.misc.Alerts;
  * Created by brenden on 23/04/2016.
  * This file deals with creating/updating and deleting areas on the map.
  */
-public class Area extends FlowPane{
+public class Area extends FlowPane {
     Alerts alert = new Alerts();
     private Pane area, numberCont;
     private int buildingNo;
@@ -34,7 +34,7 @@ public class Area extends FlowPane{
 
     public Area() {
         setup();
-        Consts.setNoOfBuildings(Consts.noOfBuildings+1);
+        Consts.setNoOfBuildings(Consts.noOfBuildings + 1);
         buildingNo = Consts.noOfBuildings;
     }
 
@@ -57,7 +57,7 @@ public class Area extends FlowPane{
         this.setAlignment(Pos.CENTER);
     }
 
-    public void enableMove(){
+    public void enableMove() {
 
         final MousePosition dragMousePosition = new MousePosition();
 
@@ -93,25 +93,31 @@ public class Area extends FlowPane{
             }
         });
 
-        this.setOnMouseExited(e->{});
+        this.setOnMouseExited(e -> {
+        });
 
         this.setBackground(new Background(new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY)));
         generateCircle();
     }
 
-    public void disableMove(){
+    public void disableMove() {
         circle.setRadius(5);
         number.setStyle("-fx-font: 6 arial;");
-        this.setOnMousePressed(e->{});
-        this.setOnMouseDragged(e->{});
-        this.setOnMouseReleased(e->{});
-        this.setOnMouseEntered(e->{
+        this.setOnMousePressed(e -> {
+        });
+        this.setOnMouseDragged(e -> {
+        });
+        this.setOnMouseReleased(e -> {
+        });
+        this.setOnMouseEntered(e -> {
+            area.setCursor(Cursor.HAND);
             area.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5);");
             circle.setRadius(10);
             number.setStyle("-fx-font: 10 arial;");
             Consts.currentBuilding = buildingNo;
         });
-        this.setOnMouseExited(e->{
+        this.setOnMouseExited(e -> {
+            area.setCursor(Cursor.DEFAULT);
             area.setStyle("-fx-background-color: rgba(100, 100, 100, 0.0);");
             circle.setRadius(5);
             number.setStyle("-fx-font: 6 arial;");
@@ -123,11 +129,11 @@ public class Area extends FlowPane{
 
     }
 
-    private void createMover(){
+    private void createMover() {
         //todo create this method
     }
 
-    public Pane setupArea(int x, int y){
+    public Pane setupArea(int x, int y) {
         this.setPrefSize(x, y);
         this.setMinSize(20, 20);
         this.setMaxSize(600, 600);
@@ -135,7 +141,7 @@ public class Area extends FlowPane{
         return area;
     }
 
-    private void generateCircle(){
+    private void generateCircle() {
 
         circle = new Circle(10);
         circle.setFill(Color.SKYBLUE);
@@ -145,17 +151,18 @@ public class Area extends FlowPane{
 
         number = new Text(Integer.toString(buildingNo));
         number.setStyle("-fx-font: 10 arial;");
-        numberCont.relocate(2,2);
-        numberCont.getChildren().addAll(circle,number);
+        numberCont.relocate(2, 2);
+        numberCont.getChildren().addAll(circle, number);
     }
 
-    public void generateLook(){
+    public void generateLook() {
         this.getChildren().clear();
         area.getChildren().add(numberCont);
         area.setBackground(null);
     }
 
-    public void enableOpenBuilding(){
+    public void enableOpenBuilding() {
+
         this.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY) openBuilding();
             if (e.getButton() == MouseButton.SECONDARY) {
@@ -185,7 +192,7 @@ public class Area extends FlowPane{
                     Button submit = new Button("submit");
                     submit.setOnAction(ee -> {
                         try {
-                            this.setPrefSize(Integer.parseInt(height.getText()), Integer.parseInt(width.getText()));
+                            this.setPrefSize(Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
                             this.enableMove();
                             this.disableOpenBuilding();
                             referenceParent.save();
@@ -226,11 +233,12 @@ public class Area extends FlowPane{
         });
     }
 
-    public void disableOpenBuilding(){
-        this.setOnMouseClicked(e->{});
+    public void disableOpenBuilding() {
+        this.setOnMouseClicked(e -> {
+        });
     }
 
-    public void openBuilding(){
+    public void openBuilding() {
         Stage buildingWindow = new Stage();
         Consts.currentArea = this;
         Consts.currentBuilding = buildingNo;
@@ -241,7 +249,7 @@ public class Area extends FlowPane{
             buildingWindow.setTitle("Building Information");
             buildingWindow.initModality(Modality.APPLICATION_MODAL);
             buildingWindow.showAndWait();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
@@ -275,15 +283,15 @@ public class Area extends FlowPane{
         return buildingNo;
     }
 
+    public void setBuildingNo(int buildingNo) {
+        this.buildingNo = buildingNo;
+    }
+
     public void setReferenceParent(MapController referenceParent) {
         this.referenceParent = referenceParent;
     }
 
     class MousePosition {
         double x, y;
-    }
-
-    public void setBuildingNo(int buildingNo) {
-        this.buildingNo = buildingNo;
     }
 }

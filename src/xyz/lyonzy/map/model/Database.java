@@ -34,25 +34,23 @@ public class Database {
         }
     }
 
-    public ArrayList<Building> buildingNames(){
-        try{
+    public ArrayList<Building> buildingNames() {
+        try {
             ArrayList<Building> names = new ArrayList<>();
             stat = myConnection.createStatement();
             String selectStatment = "Select * from building JOIN image ON  building.image = image.iId";
             ResultSet building = stat.executeQuery(selectStatment);
 
-            while (building.next()){
+            while (building.next()) {
                 names.add(new Building(building.getInt("bId"), building.getString("bName"), building.getString("bOpeningHours"),
                         building.getString("bInfo"), building.getString("iURL"), building.getInt("iId")));
-
             }
             return names;
-        }
-        catch (Exception e){e.printStackTrace();
-        return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
-
 
 
     public Building getBuilding(int buildingId) throws Exception {
@@ -224,23 +222,21 @@ public class Database {
     }
 
 
-
-
-    public int updateRoom(String oldRoomName, String roomName){
-            try {
-                stat = myConnection.createStatement();
-                String insertStatement = "Update room set rName = \"" +roomName+ "\" where rName =\"" + oldRoomName +"\"";
-              return stat.executeUpdate(insertStatement);
-            }catch (Exception e){
-                System.out.println("error");
-            }
+    public int updateRoom(String oldRoomName, String roomName) {
+        try {
+            stat = myConnection.createStatement();
+            String insertStatement = "Update room set rName = \"" + roomName + "\" where rName =\"" + oldRoomName + "\"";
+            return stat.executeUpdate(insertStatement);
+        } catch (Exception e) {
+            System.out.println("error");
+        }
         return 0;
     }
 
     public boolean addRoom(int bId, String rName) {
         try {
             stat = myConnection.createStatement();
-            String deleteStatement = "Insert into room (bId, rName) values (" + bId + ", \"" +rName +"\")";
+            String deleteStatement = "Insert into room (bId, rName) values (" + bId + ", \"" + rName + "\")";
             return stat.executeUpdate(deleteStatement) == 1;
         } catch (Exception e) {
             return false;
@@ -248,18 +244,18 @@ public class Database {
     }
 
 
-    public int deleteRoom(String oldRoomName){
+    public int deleteRoom(String oldRoomName) {
         try {
             stat = myConnection.createStatement();
-            String insertStatement = "Delete from room where rName= \"" + oldRoomName +"\"";
+            String insertStatement = "Delete from room where rName= \"" + oldRoomName + "\"";
             return stat.executeUpdate(insertStatement);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("error");
         }
         return 0;
     }
 
-    public ArrayList getAllImages(){
+    public ArrayList getAllImages() {
         try {
             stat = myConnection.createStatement();
             String selectStatment = "Select * from image";
@@ -275,7 +271,7 @@ public class Database {
         return null;
     }
 
-    public ArrayList getImages(int bid){
+    public ArrayList getImages(int bid) {
         try {
             stat = myConnection.createStatement();
             String selectStatment = "Select * from image where buId = " + bid;
@@ -295,7 +291,7 @@ public class Database {
     public boolean addImage(int bId, String iURL) {
         try {
             stat = myConnection.createStatement();
-            String deleteStatement = "Insert into image (buId, iURL) values (" + bId + ", \"" +iURL +"\")";
+            String deleteStatement = "Insert into image (buId, iURL) values (" + bId + ", \"" + iURL + "\")";
             return stat.executeUpdate(deleteStatement) == 1;
         } catch (Exception e) {
             return false;
@@ -303,23 +299,23 @@ public class Database {
     }
 
 
-    public int deleteImage(String oldUrl){
+    public int deleteImage(String oldUrl) {
         try {
             stat = myConnection.createStatement();
-            String insertStatement = "Delete from image where iURL= \"" + oldUrl +"\"";
+            String insertStatement = "Delete from image where iURL= \"" + oldUrl + "\"";
             return stat.executeUpdate(insertStatement);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("error");
         }
         return 0;
     }
 
-    public int updateImage(String oldurl, String url){
+    public int updateImage(String oldurl, String url) {
         try {
             stat = myConnection.createStatement();
             String insertStatement = "Update image set iURL = \"" + url + "\" where iURL =\"" + oldurl + "\"";
             return stat.executeUpdate(insertStatement);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("error");
         }
         return 0;

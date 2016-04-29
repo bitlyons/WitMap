@@ -4,13 +4,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import xyz.lyonzy.map.model.Building;
@@ -19,6 +17,7 @@ import xyz.lyonzy.map.model.Database;
 import xyz.lyonzy.map.model.Room;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -38,6 +37,10 @@ public class BuildingController implements Initializable {
     Button close;
     @FXML
     MenuItem edit;
+    @FXML
+    ScrollPane scrPane;
+    @FXML
+    ImageView imageView;
 
     Database database = new Database();
 
@@ -62,6 +65,30 @@ public class BuildingController implements Initializable {
             });
 
             try {
+                VBox pane = new VBox(10);
+
+                ArrayList<String> images = database.getImages(currentBuilding.getBuildingNo());
+                for (String url : images) {
+                    ImageView temp = new ImageView();
+                    temp.setFitHeight(100);
+                    temp.setFitWidth(150);
+                    temp.setImage(new Image(url.contains("http") || url.contains("www") ?
+                            url : "file:" + url));
+                    pane.getChildren().add(temp);
+                    temp.setOnMouseEntered(e -> {
+                        imageView.setImage(new Image(url.contains("http") || url.contains("www") ?
+                                url : "file:" + url));
+                    });
+
+                }
+                scrPane.setContent(pane);
+
+            } catch (Exception e) {
+
+            }
+
+
+            try {
                 if (!currentBuilding.getImage().equals("def" + currentBuilding.getBuildingNo())) {
                     this.buildingImageViw.setImage(new Image(currentBuilding.getImage().contains("http") || currentBuilding.getImage().contains("www") ?
                             currentBuilding.getImage() : "file:" + currentBuilding.getImage()));
@@ -74,6 +101,7 @@ public class BuildingController implements Initializable {
             e.printStackTrace();
         }
     }
+
 
     @FXML
     void close() {
