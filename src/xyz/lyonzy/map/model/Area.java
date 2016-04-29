@@ -253,7 +253,7 @@ public class Area extends FlowPane{
         Stage buildingWindow = new Stage();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("../view/editbuilding.fxml"));
-            buildingWindow.setScene(new Scene(root, 600, 475));
+            buildingWindow.setScene(new Scene(root, 600, 480));
             buildingWindow.setResizable(false);
             buildingWindow.setTitle("Building Information");
             buildingWindow.initModality(Modality.APPLICATION_MODAL);

@@ -1,5 +1,7 @@
 package xyz.lyonzy.map.model;
 
+import xyz.lyonzy.map.misc.Alerts;
+
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -27,6 +29,8 @@ public class Database {
         } catch (Exception e) {
             System.out.println("unable to connect to database");
             //System.out.println(e.getMessage());
+            Alerts.databaseFail();
+            System.exit(0);
         }
     }
 
@@ -269,8 +273,56 @@ public class Database {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public ArrayList getImages(int bid){
+        try {
+            stat = myConnection.createStatement();
+            String selectStatment = "Select * from image where buId = " + bid;
+            ResultSet images = stat.executeQuery(selectStatment);
+            ArrayList<String> imageList = new ArrayList<>();
+            while (images.next()) {
+                imageList.add(images.getString("iURL"));
+            }
+            return imageList;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 
+    public boolean addImage(int bId, String iURL) {
+        try {
+            stat = myConnection.createStatement();
+            String deleteStatement = "Insert into image (buId, iURL) values (" + bId + ", \"" +iURL +"\")";
+            return stat.executeUpdate(deleteStatement) == 1;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+
+    public int deleteImage(String oldUrl){
+        try {
+            stat = myConnection.createStatement();
+            String insertStatement = "Delete from image where iURL= \"" + oldUrl +"\"";
+            return stat.executeUpdate(insertStatement);
+        }catch (Exception e){
+            System.out.println("error");
+        }
+        return 0;
+    }
+
+    public int updateImage(String oldurl, String url){
+        try {
+            stat = myConnection.createStatement();
+            String insertStatement = "Update image set iURL = \"" +url+ "\" where rName =\"" + oldurl +"\"";
+            return stat.executeUpdate(insertStatement);
+        }catch (Exception e){
+            System.out.println("error");
+        }
+        return 0;
     }
 
 }

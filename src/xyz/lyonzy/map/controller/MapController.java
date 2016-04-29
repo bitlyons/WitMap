@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import xyz.lyonzy.map.misc.Alerts;
 import xyz.lyonzy.map.model.Area;
 import xyz.lyonzy.map.model.Building;
 import xyz.lyonzy.map.model.Consts;
@@ -35,6 +36,8 @@ public class MapController implements Initializable {
     Button addArea;
     @FXML
     Menu allBuildings;
+    @FXML
+    MenuButton optionsMenu;
 
     Database database = new Database();
     Tooltip minMaxSize = new Tooltip("Min size 20x20, Max 600x600");
@@ -127,6 +130,11 @@ public class MapController implements Initializable {
         saveLocationArea.toFront();
     }
 
+    @FXML
+    private void about(){
+        Alerts.about();
+    }
+
 
     @FXML
     void disableMoveAll() {
@@ -193,7 +201,9 @@ public class MapController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
         getAllBuldingNames();
+
         addArea.setTooltip(new Tooltip("Add New Area"));
+        optionsMenu.setTooltip(new Tooltip("Options Menu"));
         Consts.setNoOfBuildings(database.numberOfAreas());
         if (Consts.getNoOfBuildings() > 0) {
             ResultSet areas = database.getAllArea();
@@ -206,6 +216,7 @@ public class MapController implements Initializable {
                 }
             } catch (Exception e) {
                 System.out.println("error");
+
             }
 
         }

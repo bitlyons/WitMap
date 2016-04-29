@@ -1,5 +1,6 @@
 package xyz.lyonzy.map.controller;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -7,6 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -33,7 +36,14 @@ public class EditBuildingController implements Initializable {
     @FXML
     TableColumn<Room, String> colRooms;
     @FXML
+    TableColumn<String, String > imageCol;
+    @FXML
+    TableView<String> imageTab;
+    @FXML
     TableView<Room> tableView;
+    @FXML
+    ImageView imageViewOther;
+
     int imageRef;
     private int roomIndex;
     private Room oldRoom;
@@ -41,6 +51,8 @@ public class EditBuildingController implements Initializable {
     private Database database = new Database();
     private Building currentBuilding;
     private ObservableList<Room> rooms;
+    private ObservableList<String> images;
+    private String oldImage, newImage;
 
     @FXML
     void submit() {
@@ -132,6 +144,49 @@ public class EditBuildingController implements Initializable {
     }
 
 
+    private void image(boolean edit){
+        Stage istage = new Stage();
+        istage.setTitle(edit ? "Edit Image Url" : "Create New Image");
+        GridPane pane = new GridPane();
+
+        Label imageLab = new Label("Image URL");
+        TextField imageurl = new TextField();
+        if (edit) imageurl.setText(newImage);
+
+        pane.add(imageLab, 1, 1);
+        pane.add(imageurl, 2, 1);
+        pane.setHgap(5);
+        pane.setVgap(5);
+
+        Button submit = new Button("Submit");
+        submit.setOnAction(e -> {
+            if (imageurl.getText() != null) {
+                if (!edit) database.addImage(currentBuilding.getBuildingNo(),imageurl.getText());
+                else database.updateImage(newImage, imageurl.getText());
+                istage.close();
+            }
+        });
+        pane.add(submit, 2, 2);
+
+        istage.setScene(new Scene(pane, 270, 70));
+        istage.initModality(Modality.APPLICATION_MODAL);
+        istage.showAndWait();
+        tableViewUpdate();
+    }
+
+
+    @FXML private void addImage(){
+        image(false);
+    }
+    @FXML private void editImage(){
+        image(true);
+    }
+    @FXML private void deleteImage(){
+        database.deleteImage(newImage);
+    }
+
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (Consts.isEdit()) {
@@ -162,6 +217,7 @@ public class EditBuildingController implements Initializable {
 
         tableViewUpdate();
         colRooms.setCellValueFactory(new PropertyValueFactory<>("name"));
+        imageCol.setCellValueFactory(e -> new SimpleStringProperty(e.getValue()));
 
         tableView.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             oldRoom = oldValue;
@@ -169,11 +225,24 @@ public class EditBuildingController implements Initializable {
             roomIndex = tableView.getSelectionModel().getSelectedIndex();
         });
 
+        imageTab.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
+            oldImage = oldValue;
+            newImage = newValue;
+            try{
+                imageViewOther.setImage(new Image(newImage));
+            } catch (Exception e){  }
+        });
+
+
+
     }
 
     private void tableViewUpdate() {
         currentBuilding.getRooms();
         rooms = FXCollections.observableArrayList(Consts.rooms);
         tableView.setItems(rooms);
+
+        images = FXCollections.observableArrayList(database.getImages(currentBuilding.getBuildingNo()));
+        imageTab.setItems(images);
     }
 }

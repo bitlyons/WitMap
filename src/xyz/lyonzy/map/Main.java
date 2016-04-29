@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import xyz.lyonzy.map.misc.Alerts;
 
 
 public class Main extends Application {
@@ -13,8 +14,10 @@ public class Main extends Application {
         launch(args);
     }
 
+
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Alerts.setParent(this);
         Parent root = FXMLLoader.load(getClass().getResource("view/map.fxml"));
         primaryStage.setTitle("Waterford Institute of Technology Map");
         primaryStage.setScene(new Scene(root, 1025, 710));
